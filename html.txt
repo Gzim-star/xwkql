@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Recycling Catch Game ♻️</title>
+<style>
+  body { margin:0; background:#e9f7ef; font-family:Arial,sans-serif; overflow:hidden; }
+  #game { position:relative; width:100%; height:100vh; background:linear-gradient(#d4f9dc,#a8e6cf); }
+  #basket { position:absolute; bottom:20px; left:50%; width:80px; height:80px; margin-left:-40px; background:#2ecc71; border-radius:20px; display:flex; justify-content:center; align-items:center; color:white; font-size:35px; touch-action:none; }
+  .item { position:absolute; top:-40px; font-size:40px; }
+  #score { position:absolute; top:20px; left:20px; font-size:30px; color:#145a32; font-weight:bold; }
+</style>
+</head>
+<body>
+<div id="game">
+  <div id="basket">♻️</div>
+  <div id="score">Score: 0</div>
+</div>
+
+<script>
+let basket = document.getElementById("basket");
+let scoreDisplay = document.getElementById("score");
+let score = 0;
+
+// Bewegung Maus / Touch
+document.addEventListener("mousemove", e => { 
+  basket.style.left = Math.min(Math.max(e.clientX-40,0), window.innerWidth-80) + "px"; 
+});
+document.addEventListener("touchmove", e => { 
+  basket.style.left = Math.min(Math.max(e.touches[0].clientX-40,0), window.innerWidth-80) + "px"; 
+});
+
+// Items erstellen
+function createItem(){
+  let item = document.createElement("div");
+  item.classList.add("item");
+  let icons = ["🗑️","🧴","📦","🍾","🧃"];
+  item.textContent = icons[Math.floor(Math.random()*icons.length)];
+  item.style.left = Math.random()*(window.innerWidth-40)+"px";
+  document.getElementById("game").appendChild(item);
+  let fallSpeed = 3 + Math.random()*3;
+
+  function fall(){
+    let top = item.offsetTop + fallSpeed;
+    item.style.top = top + "px";
+    let b = basket.getBoundingClientRect();
+    let i = item.getBoundingClientRect();
+    if(i.bottom>=b.top && i.top<=b.bottom && i.right>=b.left && i.left<=b.right){
+      score++;
+      scoreDisplay.textContent = "Score: " + score;
+      item.remove();
+      return;
+    }
+    if(top>window.innerHeight){ item.remove(); return; }
+    requestAnimationFrame(fall);
+  }
+  fall();
+}
+setInterval(createItem,1000);
+</script>
+</body>
+</html>
