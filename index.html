@@ -1,395 +1,178 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Green Energy Collector — Super Version</title>
+<meta charset="UTF-8">
+<title>Math Challenge Game</title>
+
+<!-- Pixel Font -->
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
 <style>
-    :root{
-        --bg:#eafaf0;
-        --card:#ffffff;
-        --accent:#16a34a;
-        --muted:#6b7280;
-    }
-    body{
-        margin:0;
-        font-family:Inter, system-ui, Arial, sans-serif;
-        background:linear-gradient(180deg,#e6fff0 0%, #f0fff8 100%);
-        color:#0f172a;
-        -webkit-font-smoothing:antialiased;
-        text-rendering:optimizeLegibility;
-        padding:20px;
-    }
-    .wrap{ max-width:760px; margin:0 auto; }
-    header{ text-align:center; margin-bottom:18px; }
-    h1{ margin:6px 0; font-size:28px; }
-    .subtitle{ color:var(--muted); margin-bottom:8px; font-size:14px; }
-    .modes{ color:var(--muted); font-weight:600; margin-bottom:18px;}
-    .board{
-        display:grid;
-        grid-template-columns: 1fr 320px;
-        gap:18px;
-    }
-    .card{
-        background:var(--card);
-        border-radius:12px;
-        padding:16px;
-        box-shadow: 0 6px 18px rgba(8,30,13,0.06);
-    }
-    /* mobile */
-    @media(max-width:820px){
-        .board{ grid-template-columns: 1fr; }
-    }
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #000;
+  color: white;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
 
-    .statrow{ display:flex; gap:12px; align-items:center; justify-content:space-between; margin-bottom:12px; }
-    .stat{ font-size:18px; font-weight:700; }
-    .muted{ color:var(--muted); font-weight:600; font-size:14px; }
+#gameContainer {
+  width: 90%;
+  max-width: 700px;
+  padding: 25px;
+  background: #000;
+  border-radius: 18px;
+  box-shadow: 0 0 25px rgba(255,255,255,0.1);
+}
 
-    .bigbtn{
-        display:inline-block;
-        background: linear-gradient(180deg,var(--accent),#13833f);
-        color:white;
-        padding:16px 22px;
-        border-radius:10px;
-        font-size:20px;
-        border:0;
-        cursor:pointer;
-        box-shadow: 0 8px 12px rgba(20,120,60,0.12);
-        transition: transform .08s ease;
-    }
-    .bigbtn:active{ transform:scale(.97); }
+h1 {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1.6em;
+  margin-bottom: 25px;
+  color: #4dd0e1;
+}
 
-    .secondary{
-        background:#f3f9f4;
-        color:var(--accent);
-        border:1px solid #dff3e6;
-    }
+#task {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1.4em;
+  margin: 25px 0;
+}
 
-    .shop-item{ display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px dashed #eef6ee; }
-    .shop-item:last-child{ border-bottom:0; }
-    .small{ font-size:14px; color:var(--muted); }
+#inputContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-    .floatText{
-        position:fixed;
-        font-size:20px;
-        color:gold;
-        font-weight:800;
-        pointer-events:none;
-        animation: floatUp 900ms ease-out forwards;
-        text-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    }
-    @keyframes floatUp {
-        0%{ opacity:1; transform: translateY(0) scale(1); }
-        100%{ opacity:0; transform: translateY(-80px) scale(1.1); }
-    }
+#answer {
+  width: 80%;
+  padding: 12px;
+  font-size: 1em;
+  border-radius: 12px;
+  border: none;
+  text-align: center;
+  outline: none;
+}
 
-    footer{ margin-top:14px; text-align:center; color:var(--muted); font-size:13px; }
-    .controls{ display:flex; gap:10px; align-items:center; justify-content:flex-end; }
-    .reset{ background:#fff0f0; color:#9b1c1c; border:1px solid #ffd6d6; padding:8px 12px; border-radius:8px; cursor:pointer; }
+button {
+  margin-top: 15px;
+  padding: 12px 30px;
+  font-size: 1em;
+  border-radius: 12px;
+  border: none;
+  background: #2e7d32;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #4caf50;
+}
+
+#message {
+  margin-top: 20px;
+  font-size: 1em;
+  min-height: 40px;
+}
+
+#score {
+  margin-top: 15px;
+  font-size: 1em;
+  color: #ffeb3b;
+}
+
+@media (max-width: 768px) {
+  h1 { font-size: 1.3em; }
+  #task { font-size: 1.1em; }
+}
 </style>
 </head>
+
 <body>
-<div class="wrap">
-    <header>
-        <div class="modes">recyclingcatch / Solarclicker</div>
-        <h1>⚡ Green Energy Collector</h1>
-        <div class="subtitle">Sammle Energie: Klick, kaufe Panels, und erhalte automatische Produktion. (LocalStorage speichert alles)</div>
-    </header>
 
-    <div class="board">
-        <!-- main game -->
-        <div class="card">
-            <div class="statrow">
-                <div>
-                    <div class="stat" id="score">Punkte: 0</div>
-                    <div class="small muted" id="best">Best: 0</div>
-                </div>
-                <div class="controls" style="justify-content:flex-end;">
-                    <button class="reset" id="resetBtn" title="Zurücksetzen">Reset</button>
-                </div>
-            </div>
+<div id="gameContainer">
+  <h1>Math Challenge 🧮</h1>
 
-            <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:12px;">
-                <button class="bigbtn" id="sunBtn">☀️ Sonne sammeln</button>
-                <button class="bigbtn secondary" id="windBtn">🌬️ Wind sammeln</button>
-            </div>
+  <div id="task">Loading...</div>
 
-            <div class="small muted" style="margin-bottom:10px;">Klick-Power: <strong id="powerDisplay">1</strong></div>
+  <div id="inputContainer">
+    <input id="answer" type="number" placeholder="Your answer" autofocus>
+    <button onclick="checkAnswer()">OK</button>
+  </div>
 
-            <div style="display:flex; gap:10px; align-items:center; margin-bottom:8px;">
-                <div class="small muted">Passive Energie:</div>
-                <div style="font-weight:700" id="ppsDisplay">0 / sek</div>
-            </div>
-
-            <div style="margin-top:8px;">
-                <div class="small muted">Events:</div>
-                <div id="event" style="min-height:22px; margin-top:6px;"></div>
-            </div>
-        </div>
-
-        <!-- shop / info -->
-        <div class="card">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                <div style="font-weight:800;">Shop</div>
-                <div class="small muted">Wähle Upgrades</div>
-            </div>
-
-            <div class="shop-item">
-                <div>
-                    <div style="font-weight:700">Power +1</div>
-                    <div class="small muted">Erhöht Klick-Power um 1</div>
-                </div>
-                <div>
-                    <div style="display:flex; gap:8px; align-items:center;">
-                        <div class="small muted" id="costPower">Cost: 10</div>
-                        <button id="buyPower" class="bigbtn secondary" style="padding:8px 12px;font-size:14px;">Kaufen</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="shop-item">
-                <div>
-                    <div style="font-weight:700">Solar Panel</div>
-                    <div class="small muted">+1 Energie / Sekunde</div>
-                </div>
-                <div>
-                    <div style="display:flex; gap:8px; align-items:center;">
-                        <div class="small muted" id="costPanel">Cost: 50</div>
-                        <button id="buyPanel" class="bigbtn secondary" style="padding:8px 12px;font-size:14px;">Kaufen</button>
-                    </div>
-                </div>
-            </div>
-
-            <div style="margin-top:14px; border-top:1px solid #f0f6f0; padding-top:12px;">
-                <div class="small muted">Gespeichert (LocalStorage)</div>
-                <div style="margin-top:8px;">
-                    <div class="small">Score: <strong id="savedScore">0</strong></div>
-                    <div class="small">Power: <strong id="savedPower">1</strong></div>
-                    <div class="small">Panels: <strong id="savedPanels">0</strong></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <footer>Made with 💚 — Spielstatistiken werden lokal auf deinem Gerät gespeichert.</footer>
+  <div id="message"></div>
+  <div id="score">Score: 0</div>
 </div>
 
 <script>
-/* -----------------------
-   Game State & Storage
-   ----------------------- */
-const STORAGE_KEY = "green_energy_save_v1";
-let state = {
-    score: 0,
-    power: 1,
-    panels: 0,
-    best: 0,
-    pps: 0 // passive per second calculated from panels
-};
+let correctAnswer = 0;
+let score = 0;
 
-function loadState(){
-    try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if(raw) {
-            const parsed = JSON.parse(raw);
-            Object.assign(state, parsed);
-        }
-    } catch(e){
-        console.warn("Load failed", e);
-    }
-    recalc();
+function randomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function saveState(){
-    try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-        updateSavedUI();
-    } catch(e){
-        console.warn("Save failed", e);
-    }
+function generateTask() {
+  const ops = ["+", "-", "*", "/"];
+  const op = ops[randomInt(0, ops.length - 1)];
+
+  let a, b;
+
+  if (op === "+") {
+    a = randomInt(20, 100);
+    b = randomInt(10, 80);
+    correctAnswer = a + b;
+  }
+
+  if (op === "-") {
+    a = randomInt(30, 100);
+    b = randomInt(10, a);
+    correctAnswer = a - b;
+  }
+
+  if (op === "*") {
+    a = randomInt(4, 15);
+    b = randomInt(4, 12);
+    correctAnswer = a * b;
+  }
+
+  if (op === "/") {
+    b = randomInt(2, 12);
+    correctAnswer = randomInt(3, 15);
+    a = b * correctAnswer;
+  }
+
+  document.getElementById("task").textContent = `${a} ${op} ${b} = ?`;
+  document.getElementById("answer").value = "";
+  document.getElementById("answer").focus();
 }
 
-function resetState(){
-    state = { score:0, power:1, panels:0, best:0, pps:0 };
-    recalc();
-    saveState();
-    updateUI();
+function checkAnswer() {
+  const input = document.getElementById("answer");
+  const message = document.getElementById("message");
+
+  if (input.value === "") return;
+
+  if (Number(input.value) === correctAnswer) {
+    score++;
+    message.textContent = "✅ Correct!";
+    document.getElementById("score").textContent = `Score: ${score}`;
+    setTimeout(() => {
+      message.textContent = "";
+      generateTask();
+    }, 500);
+  } else {
+    message.textContent = `❌ Wrong! Correct answer was ${correctAnswer}`;
+    document.getElementById("task").textContent = "Game Over 💥";
+  }
 }
 
-/* -----------------------
-   DOM references
-   ----------------------- */
-const scoreEl = document.getElementById("score");
-const powerDisplay = document.getElementById("powerDisplay");
-const ppsDisplay = document.getElementById("ppsDisplay");
-const eventEl = document.getElementById("event");
-const bestEl = document.getElementById("best");
-
-const buyPowerBtn = document.getElementById("buyPower");
-const buyPanelBtn = document.getElementById("buyPanel");
-const costPowerEl = document.getElementById("costPower");
-const costPanelEl = document.getElementById("costPanel");
-
-const sunBtn = document.getElementById("sunBtn");
-const windBtn = document.getElementById("windBtn");
-const resetBtn = document.getElementById("resetBtn");
-
-const savedScore = document.getElementById("savedScore");
-const savedPower = document.getElementById("savedPower");
-const savedPanels = document.getElementById("savedPanels");
-
-/* -----------------------
-   Game logic
-   ----------------------- */
-function recalc(){
-    state.pps = state.panels * 1; // each panel = 1 energy/sec
-}
-
-function updateUI(){
-    scoreEl.textContent = "Punkte: " + Math.floor(state.score);
-    powerDisplay.textContent = state.power;
-    ppsDisplay.textContent = state.pps + " / sek";
-    bestEl.textContent = "Best: " + Math.floor(state.best);
-
-    costPowerEl.textContent = "Cost: " + costOfPower();
-    costPanelEl.textContent = "Cost: " + costOfPanel();
-
-    savedScore.textContent = Math.floor(state.score);
-    savedPower.textContent = state.power;
-    savedPanels.textContent = state.panels;
-}
-
-function updateSavedUI(){ // lighter update for storage panel
-    savedScore.textContent = Math.floor(state.score);
-    savedPower.textContent = state.power;
-    savedPanels.textContent = state.panels;
-}
-
-/* cost functions (simple scaling) */
-function costOfPower(){
-    // base 10, scales with current power
-    return 10 + (state.power - 1) * 8;
-}
-function costOfPanel(){
-    // base 50, scales with panels
-    return 50 + state.panels * 30;
-}
-
-/* floating text */
-function showFloat(text){
-    const el = document.createElement("div");
-    el.className = "floatText";
-    el.textContent = text;
-    el.style.left = (window.innerWidth/2 - 30 + (Math.random()*80 - 40)) + "px";
-    el.style.top = (150 + Math.random()*40) + "px";
-    document.body.appendChild(el);
-    setTimeout(()=> el.remove(), 900);
-}
-
-/* click handlers */
-function clickEnergy(source){
-    // source: "sun" or "wind"
-    let base = state.power;
-    if(source === "wind"){
-        base = Math.max(1, Math.floor(state.power * 0.8)); // wind slightly weaker
-    }
-    let multiplier = 1;
-    // 18% chance double
-    if(Math.random() < 0.18) multiplier = 2;
-    const gained = base * multiplier;
-    state.score += gained;
-    if(state.score > state.best) state.best = Math.floor(state.score);
-    showFloat((multiplier===2 ? "⚡+" : "+") + Math.floor(gained));
-    // small event chance
-    if(Math.random() < 0.10){
-        const bonus = Math.floor(Math.random()*8) + 3;
-        state.score += bonus;
-        showFloat("🌟+" + bonus);
-        eventEl.textContent = "🌟 Sonnenbonus! +" + bonus;
-        setTimeout(()=> eventEl.textContent = "", 1600);
-    }
-    saveState();
-    updateUI();
-}
-
-/* buy actions */
-function buyPower(){
-    const cost = costOfPower();
-    if(state.score >= cost){
-        state.score -= cost;
-        state.power += 1;
-        recalc();
-        saveState();
-        showFloat("⚡ Power+1");
-        updateUI();
-    } else {
-        flashMessage("Nicht genug Punkte für Power!");
-    }
-}
-function buyPanel(){
-    const cost = costOfPanel();
-    if(state.score >= cost){
-        state.score -= cost;
-        state.panels += 1;
-        recalc();
-        saveState();
-        showFloat("🔆 Panel gekauft");
-        eventEl.textContent = "🔋 +1 Energie/s";
-        setTimeout(()=> eventEl.textContent = "", 1400);
-        updateUI();
-    } else {
-        flashMessage("Nicht genug Punkte für Panel!");
-    }
-}
-
-/* UI helpers */
-function flashMessage(msg){
-    eventEl.textContent = msg;
-    setTimeout(()=> { if(eventEl.textContent === msg) eventEl.textContent = ""; }, 1400);
-}
-
-/* passive production loop */
-let lastTick = Date.now();
-function tick(){
-    const now = Date.now();
-    const dt = (now - lastTick) / 1000; // seconds
-    lastTick = now;
-    if(state.pps > 0){
-        state.score += state.pps * dt;
-        if(state.score > state.best) state.best = Math.floor(state.score);
-        saveState();
-        updateUI();
-    }
-    requestAnimationFrame(tick);
-}
-
-/* keyboard shortcuts (optional) */
-window.addEventListener("keydown", (e)=>{
-    if(e.key === " ") { clickEnergy("sun"); e.preventDefault(); }
-});
-
-/* init */
-loadState();
-updateUI();
-lastTick = Date.now();
-requestAnimationFrame(tick);
-
-/* listeners */
-sunBtn.addEventListener("click", ()=> clickEnergy("sun"));
-windBtn.addEventListener("click", ()=> clickEnergy("wind"));
-buyPowerBtn.addEventListener("click", buyPower);
-buyPanelBtn.addEventListener("click", buyPanel);
-
-resetBtn.addEventListener("click", ()=>{
-    if(confirm("Spiel wirklich zurücksetzen?")) {
-        resetState();
-        updateUI();
-        flashMessage("Zurückgesetzt ✅");
-    }
-});
-
-/* save periodically (safety) */
-setInterval(saveState, 2500);
+generateTask();
 </script>
+
 </body>
 </html>
