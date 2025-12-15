@@ -9,8 +9,9 @@
 <style>
 html, body { height: 100%; margin: 0; }
 body {
-  display: grid;
-  place-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: #000;
   color: white;
   font-family: Arial, sans-serif;
@@ -18,6 +19,10 @@ body {
   overflow-x: hidden;
 }
 #gameContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 90%;
   max-width: 700px;
   padding: 20px;
@@ -25,6 +30,7 @@ body {
   border-radius: 15px;
   box-shadow: 0 0 25px rgba(255,255,255,0.08);
   box-sizing: border-box;
+  min-height: 80vh; /* sorgt dafür, dass alles vertikal zentriert */
 }
 h1 {
   font-size: 1.8em;
@@ -71,11 +77,32 @@ button:hover { background: #4caf50; }
 .timer-green { color: #4caf50; }
 .timer-yellow { color: #ffc107; }
 .timer-red { color: #f44336; }
-#board { display: grid; grid-template-columns: repeat(3, 150px); grid-template-rows: repeat(3, 150px); gap: 10px; margin:0 auto; }
-.cell { width:150px; height:150px; display:flex; align-items:center; justify-content:center; font-size:72px; cursor:pointer; transition:all 0.3s; color:white; font-weight:bold; border-radius:12px; }
+#board {
+  display: grid;
+  grid-template-columns: repeat(3, 150px);
+  grid-template-rows: repeat(3, 150px);
+  gap: 10px;
+  margin: 20px auto;
+  justify-content: center;
+  align-content: center;
+}
+.cell {
+  width:150px;
+  height:150px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:72px;
+  cursor:pointer;
+  transition:all 0.3s;
+  color:white;
+  font-weight:bold;
+  border-radius:12px;
+}
 .cell:hover { transform:scale(1.05); filter: brightness(1.2); }
 .highlight { background:#ffe082 !important; color:#000 !important; }
 #scoreboard, #level { margin-top:10px; color:white; }
+
 @media (max-width:768px){
   h1{font-size:1.4em;}
   #task, #wordDisplay{font-size:1.2em;}
