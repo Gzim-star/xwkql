@@ -3,16 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Brain Challenge</title>
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-
 <style>
 html, body { height: 100%; margin: 0; }
 body {
   display: grid;
   place-items: center;
-  background: #000000;
+  background: #000;
   color: white;
   font-family: Arial, sans-serif;
   text-align: center;
@@ -22,151 +20,147 @@ body {
   width: 90%;
   max-width: 700px;
   padding: 20px;
-  background: #000000;
+  background: #000;
   border-radius: 15px;
   box-shadow: 0 0 25px rgba(255,255,255,0.08);
   box-sizing: border-box;
 }
 h1 { font-size: 1.8em; margin-bottom: 20px; color: #4dd0e1; font-family: 'Press Start 2P', cursive; }
+#message { margin-top: 20px; font-size: 1em; min-height: 40px; }
 #wordDisplay, #task { font-size: 1.4em; margin: 20px 0; min-height: 50px; font-family: 'Press Start 2P', cursive; word-break: keep-all; }
 #inputContainer { display: flex; flex-direction: column; align-items: center; }
-#playerWord, #answer { width: 80%; max-width: 400px; font-size: 1em; padding: 10px; border-radius: 10px; border: none; margin-bottom: 15px; text-align: center; box-sizing: border-box; }
+input { width: 80%; max-width: 400px; font-size: 1em; padding: 10px; border-radius: 10px; border: none; margin-bottom: 15px; text-align: center; box-sizing: border-box; }
 button { padding: 12px 25px; font-size: 1em; border: none; border-radius: 10px; background: #2e7d32; color: white; cursor: pointer; transition: all 0.2s; }
 button:hover { background: #4caf50; }
-#message { margin-top: 20px; font-size: 1em; min-height: 40px; }
-#roundCounter { margin-top: 10px; font-size: 1em; color: #ffeb3b; }
-#board { display: grid; grid-template-columns: repeat(3, 150px); grid-template-rows: repeat(3, 150px); gap: 10px; margin: 20px auto; }
+#timer { margin-top: 15px; font-size: 1em; font-weight: bold; }
+.timer-green { color: #4caf50; }
+.timer-yellow { color: #ffc107; }
+.timer-red { color: #f44336; }
+#board { display: grid; grid-template-columns: repeat(3, 150px); grid-template-rows: repeat(3, 150px); gap: 10px; margin: 0 auto; }
 .cell { width: 150px; height: 150px; display: flex; align-items: center; justify-content: center; font-size: 72px; cursor: pointer; transition: all 0.3s; color: white; font-weight: bold; border-radius: 12px; }
 .cell:hover { transform: scale(1.05); filter: brightness(1.2); }
-#scoreboard { margin-top: 10px; color: white; }
-#timer { margin-top: 10px; font-size: 22px; }
-.timer-green { color: #4caf50; }
-.timer-yellow { color: #ffeb3b; }
-.timer-red { color: #f44336; animation: pulse 1s infinite; }
+.highlight { background: #ffe082 !important; color: #000 !important; }
 @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
-@media (max-width: 768px) { h1 { font-size: 1.4em; } #wordDisplay, #task { font-size: 1.2em; } #playerWord, #answer { font-size: 0.9em; } button { font-size: 0.9em; padding: 10px 20px; } }
+@media (max-width: 768px) { h1 { font-size: 1.4em; } #task,#wordDisplay { font-size: 1.2em; } input { font-size: 0.9em; } button { font-size: 0.9em; padding: 10px 20px; } }
 @media (max-width: 600px) { #board { grid-template-columns: repeat(3, 100px); grid-template-rows: repeat(3, 100px); } .cell { width: 100px; height: 100px; font-size: 48px; } }
 </style>
 </head>
-
 <body>
 <div id="gameContainer">
-  <h1>🧠 Word Chain</h1>
-  <div id="wordDisplay">Start word: Apple</div>
-
-  <div id="inputContainer">
-    <input type="text" id="playerWord" placeholder="Type your word here" inputmode="text" autocomplete="off" autocorrect="off" autocapitalize="none">
-    <button onclick="playWord()">OK</button>
+  <h1>🧠 BRAIN CHALLENGE</h1>
+  <div id="startScreen">
+    <button onclick="startWordChain()">START</button>
   </div>
-
-  <div id="message"></div>
-  <div id="roundCounter">Rounds completed: 0 / 6</div>
 </div>
 
 <script>
-// ---------------- Word Chain ----------------
 let currentWord = "Apple";
 const usedWords = [currentWord];
-let rounds = 0;
 const wordList = ["Apple","Elephant","Tiger","Rabbit","Tree","Eagle","Egg","Giraffe","Fish","Horse","Orange","Grapes","Snake","Emu","Umbrella","Lion","Nut","Tapir","Rat","Tomato","Owl","Lemon","Night","Hat","Turtle","Eel","Lamb","Bread","Dog","Goat","Ant","Seal","Lily","Yak","Kangaroo"];
+let wordChainScore = 0;
+let ticScore = {player:0, ai:0};
+let correctAnswer=0;
 
-function playWord() {
+function clearContainer() { document.getElementById('gameContainer').innerHTML=''; }
+
+function startWordChain(){
+  clearContainer();
+  document.getElementById('gameContainer').innerHTML = `
+    <h1>Word Chain</h1>
+    <div id="wordDisplay">Start word: Apple</div>
+    <div id="inputContainer">
+      <input type="text" id="playerWord" placeholder="Type your word here" autocomplete="off">
+      <button onclick="playWord()">OK</button>
+    </div>
+    <div id="message"></div>
+  `;
+  currentWord = "Apple"; usedWords.length=0; usedWords.push(currentWord); wordChainScore=0;
+}
+
+function playWord(){
   const input = document.getElementById("playerWord");
-  let word = input.value.trim().toLowerCase();
-  word = word.charAt(0).toUpperCase() + word.slice(1);
+  let word = input.value.trim().toLowerCase(); word = word.charAt(0).toUpperCase()+word.slice(1);
   const message = document.getElementById("message");
-  if (!word) return;
+  if(!word) return;
   const lastChar = currentWord.slice(-1).toLowerCase();
   const reversed = currentWord.split("").reverse().join("").toLowerCase();
-  if (word[0].toLowerCase() !== lastChar) { message.textContent="❌ Wrong!"; return; }
-  if (word.toLowerCase() === currentWord.toLowerCase()) { message.textContent="❌ Repeat!"; return; }
-  if (word.toLowerCase() === reversed) { message.textContent="❌ No reversed!"; return; }
-  if (usedWords.map(w=>w.toLowerCase()).includes(word.toLowerCase())) { message.textContent="❌ Already used!"; return; }
-  usedWords.push(word); currentWord = word; document.getElementById("wordDisplay").textContent=`Your word: ${currentWord}`;
-  input.value=""; message.textContent=""; setTimeout(aiTurn,500);
+  if(word[0].toLowerCase()!==lastChar){ message.textContent="❌ Wrong!"; return; }
+  if(word.toLowerCase()===currentWord.toLowerCase()){ message.textContent="❌ Cannot repeat same word!"; return; }
+  if(word.toLowerCase()===reversed){ message.textContent="❌ Reversed not allowed!"; return; }
+  if(usedWords.map(w=>w.toLowerCase()).includes(word.toLowerCase())){ message.textContent="❌ Already used!"; return; }
+  usedWords.push(word); currentWord=word; document.getElementById("wordDisplay").textContent=`Your word: ${currentWord}`; input.value=""; message.textContent="";
+  setTimeout(aiTurn,500);
 }
 
-function aiTurn() {
-  const lastChar=currentWord.slice(-1).toLowerCase();
-  let possible=wordList.filter(w=>w[0].toLowerCase()===lastChar&&!usedWords.includes(w));
-  if(possible.length===0){ const remaining=wordList.filter(w=>!usedWords.includes(w)); if(remaining.length>0){ const randomWord=remaining[Math.floor(Math.random()*remaining.length)]; usedWords.push(randomWord); currentWord=randomWord; document.getElementById("wordDisplay").textContent=` ${currentWord}`;} incrementRound(); return; }
+function aiTurn(){
+  const lastChar = currentWord.slice(-1).toLowerCase();
+  let possible = wordList.filter(w=>w[0].toLowerCase()===lastChar && !usedWords.includes(w));
+  if(possible.length===0){ const remaining = wordList.filter(w=>!usedWords.includes(w)); if(remaining.length>0){ let randomWord=remaining[Math.floor(Math.random()*remaining.length)]; usedWords.push(randomWord); currentWord=randomWord; document.getElementById("wordDisplay").textContent=` ${currentWord}`; } wordChainScore++; if(wordChainScore>=6){ startTicTacToe(); } return; }
   let best=possible[0]; let max=-1;
-  for(let w of possible){ const next=w.slice(-1).toLowerCase(); const options=wordList.filter(p=>p[0].toLowerCase()===next&&!usedWords.includes(p)); if(options.length>max){ max=options.length; best=w; }}
-  usedWords.push(best); currentWord=best; document.getElementById("wordDisplay").textContent=` ${currentWord}`; incrementRound();
+  for(let w of possible){ const next=w.slice(-1).toLowerCase(); const options=wordList.filter(p=>p[0].toLowerCase()===next && !usedWords.includes(p)); if(options.length>max){ max=options.length; best=w; } }
+  usedWords.push(best); currentWord=best; document.getElementById("wordDisplay").textContent=` ${currentWord}`; wordChainScore++; if(wordChainScore>=6){ startTicTacToe(); }
 }
 
-function incrementRound() {
-  rounds++;
-  document.getElementById("roundCounter").textContent=`Rounds completed: ${rounds} / 6`;
-  if(rounds>=6){ showTicTacToe(); }
-}
-
-// ---------------- Tic Tac Toe ----------------
-function showTicTacToe() {
-  const container=document.getElementById("gameContainer");
-  container.innerHTML=`
-    <h1>🎯 Tic Tac Toe</h1>
+function startTicTacToe(){
+  clearContainer();
+  document.getElementById('gameContainer').innerHTML = `
+    <h1>Tic Tac Toe</h1>
     <div id="board"></div>
     <div id="timer">⏳ Time left: 6</div>
     <div id="message"></div>
     <div id="scoreboard">Player: 0 | AI: 0 | Draws: 0</div>
     <button onclick="resetGame()">Restart Game</button>
   `;
-  board=['','','','','','','','','']; gameOver=false; scores={player:0,ai:0,draw:0};
+  ticScore={player:0,ai:0,draw:0};
+  board=['','','','','','','','',''];
+  gameOver=false;
   renderBoard(); startTimer();
 }
 
-let board=['','','','','','','','',''];
-let gameOver=false;
-let scores={player:0,ai:0,draw:0};
-let timer=6; let timerInterval;
-function renderBoard() {
-  const boardDiv=document.getElementById('board'); boardDiv.innerHTML='';
-  board.forEach((cell,index)=>{
-    const div=document.createElement('div'); div.className='cell'; div.textContent=cell;
-    div.onclick=()=>playerMove(index);
-    boardDiv.appendChild(div);
-  });
-}
-function startTimer(){clearInterval(timerInterval);timer=6;updateTimerUI();timerInterval=setInterval(()=>{timer--;updateTimerUI();if(timer===0){clearInterval(timerInterval);aiMove();}},1000);}
-function updateTimerUI(){const timerDiv=document.getElementById('timer');timerDiv.textContent=`⏳ Time left: ${timer}`; timerDiv.className=''; if(timer>=4)timerDiv.classList.add('timer-green'); else if(timer>=2)timerDiv.classList.add('timer-yellow'); else timerDiv.classList.add('timer-red');}
-function playerMove(index){if(board[index]!==''||gameOver)return; board[index]='X'; clearInterval(timerInterval); renderBoard(); if(checkWinner('X')){gameOver=true;scores.player++; document.getElementById('message').textContent="You win!"; updateScore(); checkTicTacWin(); return;} if(board.every(c=>c!=='')){gameOver=true; scores.draw++; updateScore(); return;} setTimeout(aiMove,400);}
-function aiMove(){if(gameOver)return; const empty=board.map((v,i)=>v===''?i:null).filter(v=>v!==null); const move=empty[Math.floor(Math.random()*empty.length)]; board[move]='O'; renderBoard(); if(checkWinner('O')){gameOver=true;scores.ai++; updateScore(); return;} if(board.every(c=>c!=='')){gameOver=true;scores.draw++; updateScore(); return;} startTimer();}
-function checkWinner(p){const wins=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]; return wins.some(w=>w.every(i=>board[i]===p));}
-function updateScore(){document.getElementById('scoreboard').textContent=`Player: ${scores.player} | AI: ${scores.ai} | Draws: ${scores.draw}`;}
-function resetGame(){board=['','','','','','','','','']; gameOver=false; scores={player:0,ai:0,draw:0}; document.getElementById('message').textContent=''; renderBoard(); startTimer();}
-function checkTicTacWin(){if(scores.player>=3){ showMathChallenge(); }}
+let board=['','','','','','','','',''],gameOver=false,timer=6,timerInterval;
 
-// ---------------- Math Challenge ----------------
-function showMathChallenge() {
-  const container=document.getElementById("gameContainer");
-  container.innerHTML=`
-    <h1>🧮 Math Challenge (Endless)</h1>
+function randomColor(){ const colors=["#e57373","#f06292","#ba68c8","#9575cd","#7986cb","#64b5f6","#4dd0e1","#4db6ac","#81c784","#aed581","#fff176","#ffd54f","#ffb74d","#ff8a65"]; return colors[Math.floor(Math.random()*colors.length)]; }
+function renderBoard(){ const boardDiv=document.getElementById('board'); boardDiv.innerHTML=''; board.forEach((cell,index)=>{ const div=document.createElement('div'); div.className='cell'; div.textContent=cell; if(cell==='') div.style.backgroundColor=randomColor(); div.onclick=()=>playerMove(index); boardDiv.appendChild(div); }); }
+function checkWinner(p){ const wins=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]; return wins.some(w=>w.every(i=>board[i]===p)); }
+function playerMove(i){ if(board[i]!=='') return; board[i]='X'; clearInterval(timerInterval); renderBoard(); if(checkWinner('X')){ gameOver=true; ticScore.player++; document.getElementById('message').textContent="You win! 🎉"; updateScore(); if(ticScore.player>=3){ startMathChallenge(); } return; } if(board.every(c=>c!=='')){ gameOver=true; ticScore.draw++; updateScore(); return; } setTimeout(aiMove,400); }
+function aiMove(){ if(gameOver) return; let move=randomMove(); board[move]='O'; renderBoard(); if(checkWinner('O')){ gameOver=true; ticScore.ai++; document.getElementById('message').textContent="AI wins! 🤖"; updateScore(); return; } if(board.every(c=>c!=='')){ gameOver=true; ticScore.draw++; updateScore(); return; } startTimer(); }
+function randomMove(){ const empty=board.map((v,i)=>v===''?i:null).filter(v=>v!==null); return empty[Math.floor(Math.random()*empty.length)]; }
+function updateScore(){ document.getElementById('scoreboard').textContent=`Player: ${ticScore.player} | AI: ${ticScore.ai} | Draws: ${ticScore.draw}`; }
+function resetGame(){ board=['','','','','','','','','']; gameOver=false; document.getElementById('message').textContent=''; renderBoard(); startTimer(); }
+function startTimer(){ clearInterval(timerInterval); timer=6; updateTimerUI(); timerInterval=setInterval(()=>{ timer--; updateTimerUI(); if(timer===0){ clearInterval(timerInterval); aiMove(); } },1000); }
+function updateTimerUI(){ const timerDiv=document.getElementById('timer'); timerDiv.textContent=`⏳ Time left: ${timer}`; timerDiv.className=''; if(timer>=4) timerDiv.classList.add('timer-green'); else if(timer>=2) timerDiv.classList.add('timer-yellow'); else timerDiv.classList.add('timer-red'); }
+
+function startMathChallenge(){
+  clearContainer();
+  document.getElementById('gameContainer').innerHTML = `
+    <h1>Math Challenge</h1>
     <div id="task">Loading...</div>
     <div id="inputContainer">
       <input id="answer" type="number" placeholder="Your answer" autofocus>
-      <button onclick="checkAnswer()">OK</button>
+      <button onclick="checkMathAnswer()">OK</button>
     </div>
     <div id="message"></div>
   `;
-  generateTask();
+  generateMathTask();
 }
 
-let correctAnswer=0;
-function randomInt(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
-function generateTask(){
-  const pattern=randomInt(1,3); let a,b,c,text;
-  if(pattern===1){a=randomInt(10,40);b=randomInt(2,12);c=randomInt(5,30); correctAnswer=a+b*c; text=`${a} + ${b} × ${c}`;}
-  if(pattern===2){a=randomInt(20,80);b=randomInt(2,10);c=randomInt(5,30); correctAnswer=a-b*c; text=`${a} − ${b} × ${c}`;}
-  if(pattern===3){a=randomInt(20,80);b=randomInt(2,10);c=randomInt(2,6); correctAnswer=a+b*c; text=`${a} + ${b} × ${c}`;}
-  document.getElementById("task").textContent=`${text} = `;
-  document.getElementById("answer").value=""; document.getElementById("answer").focus(); document.getElementById("message").textContent="";
+function randomInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+
+function generateMathTask(){
+  const pattern=randomInt(1,3);
+  let a,b,c,text;
+  if(pattern===1){ a=randomInt(10,40); b=randomInt(2,12); c=randomInt(5,30); correctAnswer=a+b*c; text=`${a} + ${b} × ${c}`; }
+  if(pattern===2){ a=randomInt(20,80); b=randomInt(2,10); c=randomInt(5,30); correctAnswer=a-b*c; text=`${a} − ${b} × ${c}`; }
+  if(pattern===3){ a=randomInt(20,80); b=randomInt(2,10); c=randomInt(2,6); correctAnswer=a+b*c; text=`${a} + ${b} × ${c}`; }
+  document.getElementById('task').textContent=`${text} = `;
+  document.getElementById('answer').value=''; document.getElementById('answer').focus(); document.getElementById('message').textContent='';
 }
-function checkAnswer(){
-  const input=document.getElementById("answer"); const message=document.getElementById("message");
-  if(input.value==="")return;
-  if(Number(input.value)===correctAnswer){message.textContent="✅ Correct!";} else {message.textContent=`❌ Wrong! Correct was ${correctAnswer}`;}
-  setTimeout(generateTask,700);
+
+function checkMathAnswer(){
+  const input=document.getElementById('answer'); const message=document.getElementById('message');
+  if(input.value==='') return;
+  if(Number(input.value)===correctAnswer){ message.textContent="✅ Correct!"; } else{ message.textContent=`❌ Wrong! Correct was ${correctAnswer}`; }
+  setTimeout(generateMathTask,700);
 }
 </script>
 </body>
