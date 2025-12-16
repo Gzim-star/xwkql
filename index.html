@@ -183,7 +183,7 @@ function startTicTacToe(){
   container.innerHTML=`
     <h1></h1>
     <div id="boardWrapper"><div id="board"></div></div>
-    <div id="timer">6</div>
+    <div id="timer">⏳ Time left: 6</div>
     <div id="message"></div>
     <div id="scoreboard">Player: 0 | AI: 0 | Draws: 0</div>
     <div id="level">
@@ -218,7 +218,7 @@ function randomColor(){const colors=["#e57373","#f06292","#ba68c8","#9575cd","#7
 
 function startTimer(){clearInterval(timerInterval); timer=6; updateTimerUI(); timerInterval=setInterval(()=>{timer--; updateTimerUI(); if(timer===0){clearInterval(timerInterval); aiMove();}},1000);}
 
-function updateTimerUI(){const div=document.getElementById('timer'); div.textContent=`${timer}`; div.className=''; if(timer>=4) div.classList.add('timer-green'); else if(timer>=2) div.classList.add('timer-yellow'); else div.classList.add('timer-red');}
+function updateTimerUI(){const div=document.getElementById('timer'); div.textContent=`⏳ Time left: ${timer}`; div.className=''; if(timer>=4) div.classList.add('timer-green'); else if(timer>=2) div.classList.add('timer-yellow'); else div.classList.add('timer-red');}
 
 function playerMove(index){
   if(board[index]!=='') return;
@@ -274,7 +274,7 @@ function startMathChallenge(){
       <input id="answer" type="number" placeholder="Your answer" autofocus>
       <button onclick="checkAnswer()">OK</button>
     </div>
-    <div id="timer">12</div>
+    <div id="timer">⏳ Time left: 12</div>
     <div id="message"></div>
   `;
   mathTimer=12;
@@ -301,7 +301,7 @@ function startMathTimer(){
   mathTimerInterval=setInterval(()=>{
     mathTimer--;
     const div=document.getElementById("timer");
-    div.textContent=`${mathTimer}`;
+    div.textContent=`⏳ Time left: ${mathTimer}`;
     div.className='';
     if(mathTimer>=8) div.classList.add('timer-green');
     else if(mathTimer>=4) div.classList.add('timer-yellow');
