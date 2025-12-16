@@ -103,7 +103,7 @@ button:hover { background: #4caf50; }
 <body>
 <div id="gameContainer">
   <h1>🧠</h1>
-  <button onclick="startGame()">START</button>
+  <button onclick="startWordChain()">START</button>
 </div>
 
 <script>
@@ -113,17 +113,12 @@ let ticScore={player:0,ai:0,draw:0};
 let correctAnswer=0;
 let timer=6;
 let timerInterval;
+let mathTimer=12;
+let mathTimerInterval;
 let board=[];
 let gameOver=false;
 
-// ---- START GAME FUNCTION ----
-function startGame(){
-  wordScore=0;
-  ticScore={player:0,ai:0,draw:0};
-  startWordChain();
-}
-
-// ---- WORD CHAIN ----
+// ----------- START WORD CHAIN -----------
 function startWordChain(){
   stage='word';
   const container=document.getElementById('gameContainer');
@@ -183,7 +178,7 @@ function aiTurn(){
   if(wordScore>=6){ setTimeout(startTicTacToe,800);}
 }
 
-// ---- TIC TAC TOE ----
+// ----------- TIC TAC TOE -----------
 function startTicTacToe(){
   stage='tic tac toe';
   const container=document.getElementById('gameContainer');
@@ -266,14 +261,11 @@ function resetBoard(){
 function randomMove(){const empty=board.map((v,i)=>v===''?i:null).filter(v=>v!==null); return empty[Math.floor(Math.random()*empty.length)];}
 function mediumMove(){for(let i=0;i<9;i++){if(board[i]===''){board[i]='O'; if(checkWinner('O')) return i; board[i]='';}} for(let i=0;i<9;i++){if(board[i]===''){board[i]='X'; if(checkWinner('X')){board[i]=''; return i;} board[i]='';}} if(board[4]==='') return 4; const corners=[0,2,6,8].filter(i=>board[i]===''); if(corners.length) return corners[Math.floor(Math.random()*corners.length)]; return randomMove();}
 function hardMove(){let bestScore=-Infinity; let move; for(let i=0;i<9;i++){if(board[i]===''){board[i]='O'; let score=minimax(board,0,false); board[i]=''; if(score>bestScore){bestScore=score; move=i;}}} return move;}
-function minimax(b,depth,isMax){if(checkWinner('O')) return 10-depth; if(checkWinner('X')) return depth-10; if(b.every(c=>c!=='')) return 0; if(isMax){let best=-Infinity; for(let i=0;i<9;i++){if(b[i]===''){b[i]='O'; best=Math.max(best,minimax(b,depth+1,false)); b[i]='';}} return best;} else{let best=Infinity; for(let i=0;i<9;i++){if(b[i]==='X'){best=Math.min(best,minimax(b,depth+1,true)); b[i]='';}} return best;}}
+function minimax(b,depth,isMax){if(checkWinner('O')) return 10-depth; if(checkWinner('X')) return depth-10; if(b.every(c=>c!=='')) return 0; if(isMax){let best=-Infinity; for(let i=0;i<9;i++){if(b[i]===''){b[i]='O'; best=Math.max(best,minimax(b,depth+1,false)); b[i]='';}} return best;} else{let best=Infinity; for(let i=0;i<9;i++){if(b[i]===''){b[i]='X'; best=Math.min(best,minimax(b,depth+1,true)); b[i]='';}} return best;}}
 function checkWinner(p){const wins=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]; return wins.some(w=>w.every(i=>board[i]===p));}
 function updateScore(){document.getElementById('scoreboard').textContent=`Player: ${ticScore.player} | AI: ${ticScore.ai} | Draws: ${ticScore.draw}`;}
 
-// ---- MATH CHALLENGE ----
-let mathTimer=12;
-let mathTimerInterval;
-
+// ----------- MATH CHALLENGE -----------
 function startMathChallenge(){
   stage='math';
   const container=document.getElementById('gameContainer');
@@ -301,8 +293,8 @@ function startMathTimer(){
     updateMathTimerUI();
     if(mathTimer<=0){
       clearInterval(mathTimerInterval);
-      alert('⏰ Time is up! Restarting game');
-      startGame(); // bei Timer ablauf auch Spiel neu starten
+      document.getElementById('message').textContent='⏰ Time is up! Restarting game...';
+      setTimeout(startWordChain,1000); // Spiel nur beim Math-Challenge neu starten
     }
   },1000);
 }
@@ -336,12 +328,14 @@ function checkAnswer(){
   clearInterval(mathTimerInterval);
   if(Number(input.value)===correctAnswer){
     document.getElementById("message").textContent="✅ Correct!";
-    setTimeout(generateTask,700); // nächste Aufgabe
-    mathTimer=12;
-    startMathTimer();
+    setTimeout(()=>{
+      generateTask();
+      mathTimer=12;
+      startMathTimer();
+    },700);
   } else {
-    alert('❌ Wrong! Restarting game');
-    startGame(); // Spiel komplett neu starten
+    document.getElementById('message').textContent='❌ Wrong! Restarting game...';
+    setTimeout(startWordChain,1000); // Spiel nur bei Math-Challenge neu starten
   }
 }
 </script>
