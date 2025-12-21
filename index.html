@@ -278,7 +278,7 @@ if(possible.length === 0){
 
   wordScore++;
 
-  if(wordScore >= 1){
+  if(wordScore >= 6){
     const msg = document.getElementById('message');
     msg.textContent = '';
     setTimeout(startTicTacToe, 500);
@@ -288,7 +288,7 @@ if(possible.length === 0){
 function showWordChainHint() {
   const hint = document.getElementById('wordHint');
   if (!hint) return; // Falls das Element noch nicht geladen ist
-  hint.textContent = "🧠 Nur die richtigen Wörter bringen dich weiter!";
+  hint.textContent = "Only the right words will take you further";
   hint.style.opacity = "1";
 
   setTimeout(() => {
@@ -501,7 +501,7 @@ function showChromaticMessage(){
   var text = document.getElementById('chromaticText');
   if(!text) return;
 
-  text.textContent = "Hello 👀 have you found the color?";
+  text.textContent = "Have you found the color?";
   text.style.opacity = "1";
 
   setTimeout(function(){
