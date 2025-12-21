@@ -177,15 +177,7 @@ let mathTimer=30, mathTimerInterval;
 
 // ========================== WORD CHAIN ==========================
 function startWordChain(){
-  <div id="wordHint" style="
-  margin-top:15px;
-  font-family:'Press Start 2P', cursive;
-  font-size:0.7em;
-  color:#4dd0e1;
-  min-height:20px;
-  opacity:0;
-  transition: opacity 0.5s;
-"></div>
+  
   stage='word';
   const container=document.getElementById('gameContainer');
   container.innerHTML=`
@@ -263,7 +255,7 @@ function aiTurn(){
     w => w[0].toLowerCase() === lastChar && !usedWords.includes(w)
   );
 
-if(possible.length === 0){
+
   // 🤖 hat quasi keine sichtbaren Wörter mehr
 
   setTimeout(showWordChainHint, 5000); // ⏱ nach 5 Sekunden Hinweis
