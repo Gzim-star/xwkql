@@ -252,9 +252,7 @@ if(word.slice(-1).toLowerCase() === lastTwo[0]){
   input.value=''; message.textContent='';
   setTimeout(aiTurn,500);
 }
-function aiTurn(){setTimeout(showWordChainHint, 5000);
-    return;
-  }
+function aiTurn(){
   const lastChar = currentWord.slice(-1).toLowerCase();
   let possible = wordList.filter(
   function aiTurn(){
