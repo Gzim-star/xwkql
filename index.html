@@ -253,10 +253,10 @@ if(word.slice(-1).toLowerCase() === lastTwo[0]){
 }
   const lastChar=currentWord.slice(-1).toLowerCase();
   const reversed=currentWord.split("").reverse().join("").toLowerCase();
-  if(word[0].toLowerCase()!==lastChar)showWordError("❌ Wrong!");return;}
-  if(word.toLowerCase()===currentWord.toLowerCase())showWordError("❌ Repeat!");return;}
-  if(word.toLowerCase()===reversed)showWordError("❌ Reversed!");return;}
-  if(usedWords.map(w=>w.toLowerCase()).includes(word.toLowerCase()))showWordError("❌ Already used!");return;}
+  if(word[0].toLowerCase()!==lastChar){showWordError("❌ Wrong!");return;}
+  if(word.toLowerCase()===currentWord.toLowerCase()){showWordError("❌ Repeat!");return;}
+  if(word.toLowerCase()===reversed){showWordError("❌ Reversed!");return;}
+  if(usedWords.map(w=>w.toLowerCase()).includes(word.toLowerCase())){showWordError("❌ Already used!");return;}
   usedWords.push(word); currentWord=word;
   document.getElementById('wordDisplay').textContent=``;
   input.value=''; message.textContent='';
