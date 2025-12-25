@@ -128,14 +128,15 @@ tipButton.onclick = () => {
   if(stage === 'start') tipText = `
     <p>BrainTrials:<p>
     <p></p>
-    <p>You are entering the arena of challenges! Four tricky games await you: Word Chain, Tic-Tac-Toe, Math Challenge, and Chromatic Trial.</p>
+    <p>You are entering the arena of challenges!</p>
+    <p>Four tricky games await you: Word Chain, Tic-Tac-Toe, Math Challenge, and Chromatic Trial.</p>
     <p>Each level tests your logic, speed, and observation skills. Only those who think cleverly, react quickly, and recognize patterns can reach the end.</p>
     <p>Tip: Sometimes strategy counts more than speed.</p>
   `;
 
   else if(stage === 'word') tipText = `
-      <li>Word Chain Tips:</li>
-      <li></li>
+      <p>Word Chain Tips:</p>
+    <lu>
       <li>Think of the last letter</li>
       <li>Find the Answer</li>
       <li>Longer or smarter</li>
@@ -145,9 +146,9 @@ tipButton.onclick = () => {
   else if(stage === 'tic') tipText = `
       <p>Tic-Tac-Toe Tips:</p>
     <ul>
-      <li>Get three in a row to win.</li>
+      <li>Get three to win.</li>
       <li>Block your opponent.</li>
-      <li>The center is powerful.</li>
+      <li>Center is powerful.</li>
       <li>It's simple!</li>
     </ul>
   `;
@@ -155,8 +156,8 @@ tipButton.onclick = () => {
   else if(stage === 'math') tipText = `
       <p>Math Challenge Tips:</p>
     <ul>
-      <li>Follow order of operations...</li>
-      <li>Solve quickly, time is running!</li>
+      <li>Follow order of operations</li>
+      <li>Solve quickly,time is running!</li>
       <li>Correct answers let you advance,</li>
       <li>Wrong answers send you back.</li>
     </ul>
