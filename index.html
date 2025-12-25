@@ -137,42 +137,42 @@ tipButton.onclick = () => {
   else if(stage === 'word') tipText = `
       <p>Word Chain Tips:</p>
     <lu>
-      <p>Think of the last letter</p>
-      <p>Find the Answer</p>
-      <p>Longer or smarter</p>
+      <li>Think of the last letter</li>
+      <li>Find the Answer</li>
+      <li>Longer or smarter</li>
     </ul>
   `;
 
   else if(stage === 'tic') tipText = `
       <p>Tic-Tac-Toe Tips:</p>
     <lu>
-      <p>Get three to win.</p>
-      <p>Block your opponent.</p>
-      <p>Center is powerful.</p>
-      <p>It's simple!</p>
+      <li>Get three to win.</li>
+      <li>Block your opponent.</li>
+      <li>Center is powerful.</li>
+      <li>It's simple!</li>
     </ul>
   `;
 
   else if(stage === 'math') tipText = `
       <p>Math Challenge Tips:</p>
     <lu>
-      <p>Follow order of operations</p>
-      <p>Solve quickly</p>
-      <p>time is running!</p>
-      <p>Correct answers</p>
-      <p>let you advance</p>
-      <p>Wrong answers</p>
-      <p>send you back.</p>
+      <li>Follow order</li>
+      <li>of operations</li>
+      <li>Solve quickly</li>
+      <li>time is running!</li>
+      <li>Correct answers</li>
+      <li>let you advance</li>
+      <li>Wrong answers,send you back.</li>
     </ul>
   `;
 
   else if(stage === 'chromatic') tipText = `
       <p>Chromatic Trial Tips:</p>
     <lu>
-      <p>Make all tiles the same color.</p>
-      <p>Focus on one color.</p>
-      <p>Act fast,</p>
-      <p>or grid will reset.</p>
+      <li>Make all tiles the same color.</p>
+      <li>Focus on one color.</li>
+      <li>Act fast,</li>
+      <li>or grid will reset.</li>
     </ul>
   `;
   tipModal.querySelector('p').innerHTML = tipText;
