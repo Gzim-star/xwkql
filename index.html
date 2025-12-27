@@ -337,7 +337,7 @@ if(word.length < 6){
   // Kein gleicher Endbuchstabe wie davor
 const lastTwo = currentWord.slice(-2).toLowerCase();
 if(word.slice(-1).toLowerCase() === lastTwo[0]){
-  showWordError("");
+  showWordError("❌ Wrong!");
   return;
   
 }
