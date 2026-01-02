@@ -123,23 +123,7 @@ button:hover { background: #00000000; }
 </style>
 </head>
 <body>
-<div id="passwordOverlay" style="
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.95);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 4000;
-  color: white;
-  font-family: 'Press Start 2P', cursive;
-">
-  <p style="font-size:0.8em; margin-bottom:10px;">Enter password to start BrainTrials:</p>
-  <input type="password" id="passwordInput" style="padding:12px 20px; font-size:1em; border-radius:10px; border:none; text-align:center; margin-bottom:10px;">
-  <button id="passwordBtn" style="padding:12px 25px; font-size:1em; border-radius:10px; border:none; background:#64b5f6; color:white; cursor:pointer;">OK</button>
-  <div id="passwordError" style="margin-top:8px; color:#ff5252; font-size:0.8em; opacity:0; transition:opacity 0.3s;">Wrong password!</div>
-</div>  
+ 
  <div id="startScreen">
   <img src="IMG_1244.jpeg" alt="BrainTrials Logo">
 </div>
@@ -308,39 +292,31 @@ function showWordError(text) {
     message.textContent = "";
   }, 1200);
 }
-// ================== Passwort-Abfrage ==================
-const passwordOverlay = document.getElementById('passwordOverlay');
-const passwordInput = document.getElementById('passwordInput');
-const passwordBtn = document.getElementById('passwordBtn');
-const passwordError = document.getElementById('passwordError');
+  // ================== BrainTrials Access ==================
+  const BT_PASSWORD = "1234"; // dein Passwort
 
-const brainPassword = "1234"; // <-- hier dein Passwort
+  window.onload = () => {
+    const startScreen = document.getElementById('startScreen');
+    if (startScreen) startScreen.style.display = 'none';
 
-function checkPassword() {
-  if(passwordInput.value === brainPassword){
-    passwordOverlay.style.display = "none";
-    document.getElementById('startScreen').style.display = 'flex';
-  } else {
-    passwordError.style.opacity = 1;
-    setTimeout(()=> passwordError.style.opacity = 0, 1500);
-    passwordInput.value = '';
-    passwordInput.focus();
-  }
-}
+    let granted = false;
 
-// OK-Button
-passwordBtn.onclick = checkPassword;
+    while (!granted) {
+      const input = prompt("Enter password to start BrainTrials:");
 
-// Enter-Taste
-passwordInput.addEventListener('keyup', function(e){
-  if(e.key === 'Enter') checkPassword();
-});
+      if (input === null) {
+        // Nutzer bricht ab → Seite bleibt leer
+        return;
+      }
 
-// Flow-Bild erstmal verstecken
-window.onload = () => {
-  const startScreen = document.getElementById('startScreen');
-  if(startScreen) startScreen.style.display = 'none';
-};
+      if (input === BT_PASSWORD) {
+        granted = true;
+        if (startScreen) startScreen.style.display = 'flex';
+      } else {
+        alert("Wrong password");
+      }
+    }
+  };
     // ========================== WORD CHAIN ==========================
 function startWordChain(){
   stage='word';
