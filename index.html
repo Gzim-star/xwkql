@@ -291,26 +291,79 @@ function showWordError(text) {
   }, 1200);
 }
 
-  // ================== Passwort-Abfrage ==================
-  let accessGranted = false;
+ <!-- Passwort-Popup -->
+<div id="passwordOverlay" style="
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.95);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 4000;
+">
+  <h2 style="
+    font-family: 'Press Start 2P', cursive;
+    color: #00ffcc;
+    text-align: center;
+    margin-bottom: 20px;
+  ">Enter the password to start BrainTrials</h2>
+  <input id="passwordInput" type="password" placeholder="Password" style="
+    padding: 12px 20px;
+    border-radius: 12px;
+    border: none;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1em;
+    text-align: center;
+    margin-bottom: 15px;
+    outline: none;
+  ">
+  <button id="passwordBtn" style="
+    padding: 12px 25px;
+    border-radius: 12px;
+    border: none;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1em;
+    cursor: pointer;
+    background: #00ffcc;
+    color: black;
+    transition: all 0.2s;
+  ">Unlock</button>
+  <p id="passwordError" style="
+    color: #ff4d4d;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.7em;
+    margin-top: 10px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  ">Wrong password!</p>
+</div>
 
-  function askPassword() {
-    const pw = prompt("Enter password to start BrainTrials:");
-    if (pw === "1234") { // <-- hier dein Passwort
-      accessGranted = true;
-      document.getElementById('startScreen').style.display = 'flex';
-    } else {
-      alert("Wrong password! Try again.");
-      askPassword(); // erneut fragen
-    }
+<script>
+const PASSWORD = "1234"; // <-- Hier dein Passwort
+const overlay = document.getElementById('passwordOverlay');
+const input = document.getElementById('passwordInput');
+const btn = document.getElementById('passwordBtn');
+const error = document.getElementById('passwordError');
+
+btn.onclick = () => {
+  if(input.value === PASSWORD){
+    // Passwort korrekt → Overlay ausblenden, Flow-Bild & Spiel anzeigen
+    overlay.style.display = 'none';
+    document.getElementById('startScreen').style.display = 'flex';
+  } else {
+    // Passwort falsch → Fehler anzeigen
+    error.style.opacity = 1;
+    setTimeout(()=>{ error.style.opacity = 0; }, 1500);
+    input.value = '';
+    input.focus();
   }
+};
 
-  // Beim Laden der Seite: Flow-Bild verstecken & Passwort fragen
-  window.onload = () => {
-    const startScreen = document.getElementById('startScreen');
-    if(startScreen) startScreen.style.display = 'none'; // Flow-Bild erstmal verstecken
-    askPassword(); // Passwort-Abfrage starten
-  };
+// Optional: Enter-Taste als Bestätigung
+input.addEventListener('keydown', (e)=>{
+  if(e.key === 'Enter') btn.click();
+});
     
 // ========================== WORD CHAIN ==========================
 function startWordChain(){
