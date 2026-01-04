@@ -121,44 +121,7 @@ button:hover { background: #00000000; }
   cursor: pointer;
 }
 
-/* ✨ Flow Light Effect */
-#flowLight {
-  position: absolute;
-  top: 60px;
-  right: 60px;
-  width: 6px;
-  height: 6px;
-  background: White;
-  border-radius: 50%;
-   /* Position über dem ©️ (probier Werte an) */
-  top: 90.8%;     /* Beispiel: vertikal von oben */
-  left: 43.2%;    /* Beispiel: horizontal von links */
-  transform: translate(-50%, -50%);
-  box-shadow:
-    0 0 8px rgba(255,255,255,0.8),
-    0 0 20px rgba(255,255,255,0.6),
-    0 0 40px rgba(255,255,255,0.4);
-  opacity: 0;
-  animation: flowLightPulse 3s ease-out forwards;
-}
 
-@keyframes flowLightPulse {
-  0% {
-    transform: scale(0.3);
-    opacity: 0;
-  }
-  20% {
-    opacity: 1;
-  }
-  60% {
-    transform: scale(1.4);
-    opacity: 0.6;
-  }
-  100% {
-    transform: scale(2);
-    opacity: 0;
-  }
-}
 @keyframes sparkle {
   0% { transform: scale(0.5); opacity: 1; }
   50% { transform: scale(1.5); opacity: 0.8; }
@@ -193,7 +156,7 @@ button:hover { background: #00000000; }
     z-index: 4000;
     box-shadow: none;
 "></div>
- <div id="flowLight"></div>
+ 
  <img src="IMG_1244.jpeg" alt="BrainTrials Logo">
  </div>
 
@@ -783,19 +746,9 @@ function showChromaticWin(){
     restartGame();
   }, 5000); // ⏱ nach 5 Sekunden zurück zum Start
 }
+
 const treasure = document.getElementById('treasure');
-
 treasure.onclick = (e) => {
-  // Funken erzeugen
-  for(let i=0; i<5; i++){
-    const spark = document.createElement('div');
-    spark.className = 'spark';
-    spark.style.top = (e.clientY + (Math.random()*20-10)) + 'px';
-    spark.style.left = (e.clientX + (Math.random()*20-10)) + 'px';
-    document.body.appendChild(spark);
-    setTimeout(() => spark.remove(), 1000);
-  }
-
   // Text anzeigen
   const msg = document.createElement('div');
   msg.textContent = "Welcome";
@@ -819,18 +772,7 @@ treasure.onclick = (e) => {
   // Schatz verschwinden
   treasure.style.display = 'none';
 };
-document.addEventListener("DOMContentLoaded", () => {
-  const light = document.getElementById("flowLight");
-  if (!light) return;
 
-  // Effekt einmal abspielen
-  light.style.animation = "flowLightPulse 3s ease-out forwards";
-
-  // danach komplett entfernen
-  setTimeout(() => {
-    light.remove();
-  }, 3000);
-});
 
 </script>
 </body>
