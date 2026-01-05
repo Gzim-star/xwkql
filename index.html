@@ -126,7 +126,7 @@ button:hover { background: #00000000; }
 <body>
 <div id="welcomeHint" style="
   position: fixed;
-  top: 60%;
+  top: 10%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-family: 'Press Start 2P', cursive;
@@ -179,6 +179,10 @@ startScreen.onclick = () => {
   // Welcome nach 5 Sekunden
   setTimeout(() => {
     welcomeHint.style.opacity = '1';
+  // nach 3 Sekunden wieder ausblenden
+    setTimeout(() => {
+      welcomeHint.style.opacity = '0';
+    }, 3000);
   }, 5000);
 };
 tipButton.onclick = () => {
