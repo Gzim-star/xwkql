@@ -780,11 +780,13 @@ treasure.onclick = (e) => {
   // Schatz verschwinden
   treasure.style.display = 'none';
 };
-// Button nach 6 Sekunden anzeigen
 setTimeout(() => {
   const btn = document.getElementById('startButton');
-  if(btn) btn.style.display = 'visible';
-}, 9000); // 6000ms = 6 Sekunden
+  if (btn) {
+    btn.style.visibility = 'visible';
+    btn.style.opacity = '1';
+  }
+}, 9000);
 </script>
 </body>
 </html>
