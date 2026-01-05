@@ -200,27 +200,7 @@ window.onload = () => {
 const tipButton = document.getElementById('tipButton');
 const tipModal = document.getElementById('tipModal');
 const closeBtn = document.querySelector('.close');
-function handleStartScreenClick() {
-  const startScreen = document.getElementById('startScreen');
-  const btn = document.getElementById('startButton');
 
-  startScreen.style.display = 'none';
-
-  // Button nur zeigen, wenn Timer noch nicht abgelaufen
-  if (!startButtonTimerDone) {
-    btn.style.opacity = '1';
-    btn.style.pointerEvents = 'auto';
-    startButtonTimerDone = true;
-  }
-}
-
-document.getElementById('startScreen').onclick = handleStartScreenClick;
-
-document.getElementById('treasure').onclick = (e) => {
-  e.stopPropagation(); // Klick nicht doppelt zählen
-  e.currentTarget.style.display = 'none';
-  handleStartScreenClick();
-};
 tipButton.onclick = () => {
   // 🔁 öffnen / schließen
   tipModal.classList.toggle('open');
@@ -818,7 +798,27 @@ treasure.onclick = (e) => {
   // Schatz verschwinden
   treasure.style.display = 'none';
 };
+function handleStartScreenClick() {
+  const startScreen = document.getElementById('startScreen');
+  const btn = document.getElementById('startButton');
 
+  startScreen.style.display = 'none';
+
+  // Button nur zeigen, wenn Timer noch nicht abgelaufen
+  if (!startButtonTimerDone) {
+    btn.style.opacity = '1';
+    btn.style.pointerEvents = 'auto';
+    startButtonTimerDone = true;
+  }
+}
+
+document.getElementById('startScreen').onclick = handleStartScreenClick;
+
+document.getElementById('treasure').onclick = (e) => {
+  e.stopPropagation(); // Klick nicht doppelt zählen
+  e.currentTarget.style.display = 'none';
+  handleStartScreenClick();
+};
 </script>
 </body>
 </html>
