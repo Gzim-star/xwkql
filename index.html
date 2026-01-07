@@ -29,15 +29,7 @@ body {
   pointer-events: none;
   transition: opacity 0.6s ease;
 }
-#scoreboard {
-  font-size: 0.625em; /* kleiner als der normale Text */
-  color: white;
-  font-family: 'Press Start 2P', cursive;
-}
- .scoreValue {
-  font-size: 0.625em; /* kleiner als der normale Text */
-  font-family: 'Press Start 2P', cursive;
-}
+
   #tipButton {
   position: fixed;
   bottom: 20px;
@@ -99,7 +91,8 @@ button:hover { background: #00000000; }
 #board { display: grid; grid-template-columns: repeat(3, 120px); grid-template-rows: repeat(3, 120px); gap: 10px; margin-top:20px; }
 .cell { width:120px; height:120px; display:flex; align-items:center; justify-content:center; font-size: 40px; cursor:pointer; transition: transform 0.15s, filter 0.15s; color:white; font-weight:bold; border-radius:15px; }
 .cell:hover { transform: scale(1.05); filter: brightness(1.15); }
-#scoreboard, #level { margin-top:10px; color:white; }
+#scoreboard, #level { margin-top:10px; color:white; .scoreValue {
+  font-size: 0.8em; font-family: 'Press Start 2P', cursive; }
 
 #grid { display: grid; grid-template-columns: repeat(3, 120px); grid-template-rows: repeat(3, 120px); gap: 12px; margin-top:20px; }
 .tile { width: 120px; height: 120px; border-radius: 15px; cursor: pointer; transition: transform 0.15s, filter 0.15s; }
