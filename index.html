@@ -58,19 +58,19 @@ body {
 }
 
 /* 🎲 WÜRFEL-ANIMATION */
-#tipButton.roll .cube-face {
-  animation: cubeRoll 10s ease-in-out forwards;
+#tipButton.rollin .cube-face {
+  animation: cubeRollIn 10s ease-in-out forwards;
 }
 
-@keyframes cubeRoll {
+@keyframes cubeRollIn {
   0% {
-    animation: roll(0deg) roll(0deg);
+    animation: rollIn(0deg) rollIn(0deg);
   }
   50% {
-    animation: roll(90deg) roll(90deg);
+    animation: rollIn(90deg) rollIn(90deg);
   }
   100% {
-    animation: roll(180deg) roll(180deg);
+    animation: rollIn(180deg) rollIn(180deg);
   }
 }
 #tipButton:hover { color: #00000000; }
@@ -250,7 +250,7 @@ setTimeout(() => {
 
 // 🎲 Würfel rollen
 setTimeout(() => {
-  tipButton.classList.add('roll');
+  tipButton.classList.add('rollin');
 }, 10000);
 
 // Symbol während der Drehung wechseln
