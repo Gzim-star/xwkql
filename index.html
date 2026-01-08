@@ -28,19 +28,34 @@ body {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.6s ease;
+
 }
+
   #tipButton {
   position: fixed;
   bottom: 20px;
-  right: 20px;
+  right: -60px; /* startet außerhalb */
   background: none;
   border: none;
   color: white;
   font-size: 28px;
   cursor: pointer;
   z-index: 2000;
+
+  opacity: 0;
+  transform: translateX(0);
+  transition:
+    right 1.2s ease,
+    opacity 1.2s ease,
+    transform 0.6s ease;
 }
-#tipButton:hover { color: #00000000; }
+
+/* wenn aktiv */
+#tipButton.show {
+  right: 20px;      /* fährt rein */
+  opacity: 1;
+}
+  #tipButton:hover { color: #00000000; }
 
 .modal {
   display: none;
@@ -191,7 +206,7 @@ button:hover { background: #00000000; }
  <button id="startButton" onclick="startWordChain()">START</button> 
 </div>
   <!-- Tip Button -->
-<button id="tipButton">❕</button>
+<button id="tipButton">◽️</button>
 
 <!-- Modal für die Tipps -->
 <div id="tipModal" class="modal">
@@ -817,6 +832,25 @@ setTimeout(() => {
   btn.style.pointerEvents = 'auto';
   }
 }, 90000);
+
+const tipButton = document.getElementById('tipButton');
+
+// Start: Quadrat von rechts
+setTimeout(() => {
+  tipButton.classList.add('show');
+}, 500);
+
+// Verwandlung ◽ → !
+setTimeout(() => {
+  tipButton.style.transform = 'scale(1.2)';
+  tipButton.textContent = '❕';
+}, 1600);
+
+// kleine Beruhigung
+setTimeout(() => {
+  tipButton.style.transform = 'scale(1)';
+}, 2000);  
+
 </script>
 </body>
 </html>
