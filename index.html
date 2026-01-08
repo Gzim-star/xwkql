@@ -240,8 +240,8 @@ button:hover { background: #00000000; }
   document.getElementById('startScreen').style.display = 'none';
 };
     // ========================== TIP BUTTON LOGIC =========================
-const tipButton = document.getElementById('tipButton');
-const cubeFace = tipButton.querySelector('.cube-face');
+const tipButton = document.getElementById('tipButton').classList.add('roll');
+const cubeFace = tipButton.querySelector('.cube-face').classList.add('roll');
 
 // von rechts reinschieben
 setTimeout(() => {
