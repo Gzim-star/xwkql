@@ -335,7 +335,7 @@ window.onclick = (e) => {
 };
   
 // ========================== VARIABLES ==========================
-let stage='start', wordScore=0, ticScore={player:0,ai:0,draw:0};
+let stage='start', wordScore=0, ticScore={plays:0,ai:0,draws:0};
 let currentWord='', usedWords=[], wordList=[];
 let board=[], gameOver=false;
 let correctAnswer=0, correctMathCount=0;
@@ -531,16 +531,16 @@ function playerMove(i){
 
   if(checkWinner('X')){
     gameOver=true;
-    ticScore.player++;
+    ticScore.plays++;
     document.getElementById('message').textContent="You win";
-    updateScore(); if(ticScore.player>=3){ setTimeout(startMathChallenge,800);}
+    updateScore(); if(ticScore.plays>=3){ setTimeout(startMathChallenge,800);}
     setTimeout(resetBoard,800);
     return;
   }
 
   if(board.every(c=>c!=='')){
     gameOver=true;
-    ticScore.draw++;
+    ticScore.draws++;
     updateScore();
     setTimeout(resetBoard,800);
     return;
@@ -549,14 +549,14 @@ function playerMove(i){
   // AI-Zug nach kurzer Verzögerung
   setTimeout(aiMove,400);
 }
-function aiMove(){if(gameOver)return; const lvl=document.getElementById('levelSelect').value; let move;if(lvl==='easy')move=randomMove(); else if(lvl==='medium')move=mediumMove(); else move=hardMove(); board[move]='O'; renderBoard(); if(checkWinner('O')){gameOver=true; ticScore.ai++; document.getElementById('message').textContent="AI wins"; updateScore(); if(ticScore.ai>=3){ setTimeout(startMathChallenge,800);} else { setTimeout(resetBoard,800);} return;} if(board.every(c=>c!=='')){gameOver=true; ticScore.draw++; updateScore(); setTimeout(resetBoard,800); return;} startTimer();}
+function aiMove(){if(gameOver)return; const lvl=document.getElementById('levelSelect').value; let move;if(lvl==='easy')move=randomMove(); else if(lvl==='medium')move=mediumMove(); else move=hardMove(); board[move]='O'; renderBoard(); if(checkWinner('O')){gameOver=true; ticScore.AI++; document.getElementById('message').textContent="AI wins"; updateScore(); if(ticScore.AI>=3){ setTimeout(startMathChallenge,800);} else { setTimeout(resetBoard,800);} return;} if(board.every(c=>c!=='')){gameOver=true; ticScore.draws++; updateScore(); setTimeout(resetBoard,800); return;} startTimer();}
 function resetBoard(){board=['','','','','','','','','']; gameOver=false; document.getElementById('message').textContent=''; renderBoard(); startTimer();}
 function randomMove(){const e=board.map((v,i)=>v===''?i:null).filter(v=>v!==null); return e[Math.floor(Math.random()*e.length)];}
 function mediumMove(){for(let i=0;i<9;i++){if(board[i]===''){board[i]='O'; if(checkWinner('O'))return i; board[i]='';}} for(let i=0;i<9;i++){if(board[i]===''){board[i]='X'; if(checkWinner('X')){board[i]=''; return i;} board[i]='';}} if(board[4]==='') return 4; const c=[0,2,6,8].filter(i=>board[i]===''); if(c.length) return c[Math.floor(Math.random()*c.length)]; return randomMove();}
 function hardMove(){let best=-Infinity; let move; for(let i=0;i<9;i++){if(board[i]===''){board[i]='O'; let s=minimax(board,0,false); board[i]=''; if(s>best){best=s; move=i;}}} return move;}
 function minimax(b,d,max){if(checkWinner('O')) return 10-d; if(checkWinner('X')) return d-10; if(b.every(c=>c!=='')) return 0; if(max){let best=-Infinity; for(let i=0;i<9;i++){if(b[i]===''){b[i]='O'; best=Math.max(best,minimax(b,d+1,false)); b[i]='';}} return best;} else{let best=Infinity; for(let i=0;i<9;i++){if(b[i]===''){b[i]='X'; best=Math.min(best,minimax(b,d+1,true)); b[i]='';}} return best;}}
 function checkWinner(p){const w=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]; return w.some(x=>x.every(i=>board[i]===p));}
-function updateScore(){document.getElementById('scoreboard').textContent=`Player: ${ticScore.player} | AI: ${ticScore.ai} | Draws: ${ticScore.draw}`;}
+function updateScore(){document.getElementById('scoreboard').textContent=`Plays: ${ticScore.plays} | AI: ${ticScore.AI} | Draws: ${ticScore.draws}`;}
 
 // ========================== MATH CHALLENGE ==========================
 function startMathChallenge(){
