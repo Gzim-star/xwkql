@@ -59,7 +59,7 @@ body {
 
 /* 🎲 WÜRFEL-ANIMATION */
 #tipButton.rollin .cube-face {
-  animation: cubeRollIn 10s ease-in-out forwards;
+  animation: diceRoll 1.2s steps(1) forwards;
 }
 
 @keyframes cubeRollIn {
@@ -240,7 +240,7 @@ button:hover { background: #00000000; }
   document.getElementById('startScreen').style.display = 'none';
 };
     // ========================== TIP BUTTON LOGIC =========================
-const tipButton = document.getElementById('tipButton').classList.add('roll');
+const tipButton = document.getElementById('tipButton');
 const cubeFace = tipButton.querySelector('.cube-face');
 
 // von rechts reinschieben
