@@ -41,12 +41,29 @@ body {
   cursor: pointer;
   z-index: 2000;
   opacity: 0;
-  transition: right 1s ease, opacity 1s ease;
+  transition: right 1.2s ease, opacity 1.2s ease;
 }
 
 #tipButton.show {
   right: 20px;
   opacity: 1;
+}
+
+#tipButton .cube-face {
+  display: inline-block;
+}
+
+/* 🎲 ECHTES ROLLEN */
+#tipButton.roll .cube-face {
+  animation: cubeRoll 1.2s linear forwards;
+}
+
+@keyframes cubeRoll {
+  0%   { transform: rotate(0deg); }
+  25%  { transform: rotate(90deg); }
+  50%  { transform: rotate(180deg); }
+  75%  { transform: rotate(270deg); }
+  100% { transform: rotate(360deg); }
 }
 #tipButton:hover { color: #00000000; }
 
@@ -218,26 +235,20 @@ button:hover { background: #00000000; }
 const tipButton = document.getElementById('tipButton');
 const cubeFace = tipButton.querySelector('.cube-face');
 
-// reinschieben
+// von rechts reinschieben
 setTimeout(() => {
   tipButton.classList.add('show');
 }, 500);
 
-// 🎲 Würfel-Illusion (Frame-Wechsel)
+// 🎲 rollen
 setTimeout(() => {
-  const frames = ['◽', '◻', '◼', '◻', '◽'];
-  let i = 0;
+  tipButton.classList.add('roll');
+}, 1000);
 
-  const roll = setInterval(() => {
-    cubeFace.textContent = frames[i];
-    i++;
-
-    if (i >= frames.length) {
-      clearInterval(roll);
-      cubeFace.textContent = '❕';
-    }
-  }, 120);
-}, 10000);
+// ❕ nach dem Rollen
+setTimeout(() => {
+  cubeFace.textContent = '❕';
+}, 2200);
 
 const tipModal = document.getElementById('tipModal');
 const closeBtn = document.querySelector('.close');
