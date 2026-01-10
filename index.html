@@ -237,21 +237,9 @@ button:hover { background: #00000000; }
   </div>
 </div>
  <script>
- const startScreen = document.getElementById('startScreen');
-const startButton = document.getElementById('startButton');
-
-// ⏱ Nach 1:30 Minuten
-setTimeout(() => {
-  // StartScreen ausblenden
-  startScreen.style.display = 'none';
-
-  // StartButton anzeigen
-  startButton.style.opacity = '1';
-  startButton.style.pointerEvents = 'auto';
-
-  // ⚠️ Glitch-Effekt
-  startButton.classList.add('glitch');
-}, 90000); 
+  document.getElementById('startScreen').onclick = () => {
+  document.getElementById('startScreen').style.display = 'none';
+};
     // ========================== TIP BUTTON LOGIC =========================
 const tipButton = document.getElementById('tipButton');
 const cubeFace = tipButton.querySelector('.cube-face');
