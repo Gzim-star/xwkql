@@ -31,7 +31,20 @@ body {
 
 }
 
-#tipButton {
+/* Glitch-Effekt für den Start-Button */
+#startButton.glitchEffect {
+  animation: glitch 1s ease-in-out 3; /* 3 Wiederholungen */
+}
+
+@keyframes glitch {
+  0% { transform: translate(0,0) skew(0deg,0deg); }
+  20% { transform: translate(-2px,2px) skew(-5deg,5deg); }
+  40% { transform: translate(2px,-2px) skew(5deg,-5deg); }
+  60% { transform: translate(-2px,2px) skew(-5deg,5deg); }
+  80% { transform: translate(2px,-2px) skew(5deg,-5deg); }
+  100% { transform: translate(0,0) skew(0deg,0deg); }
+}
+  #tipButton {
   position: fixed;
   bottom: 20px;
   right: -60px;
@@ -875,6 +888,11 @@ setTimeout(() => {
   if (btn) {
   btn.style.opacity = '1';
   btn.style.pointerEvents = 'auto';
+      // Glitch-Effekt starten
+    btn.classList.add('glitchEffect');
+
+    // Nach Ablauf des Effekts wieder entfernen (optional)
+    setTimeout(() => btn.classList.remove('glitchEffect'), 3100);
   }
 }, 90000);
 
