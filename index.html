@@ -23,15 +23,43 @@ body {
   box-shadow: black; 
   display: flex; flex-direction: column; align-items: center; justify-content: center;
 }
+
+
+/* Button Container bleibt normal */
 #startButton {
-  position: fixed;
+  position: relative;
+  background: linear-gradient(#fff, #ccc);
+  border: 1px solid #999;
+  color: #000;
+  font-family: 'Press Start 2P', cursive;
+  padding: 12px 25px;
+  border-radius: 8px;
+  cursor: pointer;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.6s ease;
-
+  overflow: hidden;
 }
 
-#tipButton {
+/* Fragment Effekt */
+.fragment {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  top: 0;
+  left: 0;
+  clip-path: polygon(0 0, 50% 0, 50% 50%, 0 50%);
+  /* Polygon kann für mehrere Teile angepasst werden */
+  animation: fragmentFall 1s forwards;
+}
+
+@keyframes fragmentFall {
+  0% { transform: translate(0,0) rotate(0deg); opacity:1; }
+  50% { transform: translate(var(--x), var(--y)) rotate(var(--r)); opacity:0.6; }
+  100% { transform: translate(0,0) rotate(0deg); opacity:1; }
+}
+
+  #tipButton {
   position: fixed;
   bottom: 20px;
   right: -60px;
@@ -875,6 +903,22 @@ setTimeout(() => {
   if (btn) {
   btn.style.opacity = '1';
   btn.style.pointerEvents = 'auto';
+    // Anzahl der Fragmente
+  const parts = 6;
+
+  for (let i = 0; i < parts; i++) {
+    const frag = document.createElement('div');
+    frag.className = 'fragment';
+    
+    // zufällige Richtung, wie es auseinanderfällt
+    frag.style.setProperty('--x', (Math.random()*60 - 30) + 'px'); 
+    frag.style.setProperty('--y', (Math.random()*60 - 30) + 'px'); 
+    frag.style.setProperty('--r', (Math.random()*30 - 15) + 'deg');
+    
+    btn.appendChild(frag);
+
+    // nach Animation löschen
+    frag.addEventListener('animationend', () => frag.remove());
   }
 }, 90000);
 
