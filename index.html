@@ -847,7 +847,82 @@ treasure.onclick = (e) => {
     document.body.appendChild(spark);
     setTimeout(() => spark.remove(), 1000);
   }
+// === FAKE VIDEO / ANIMATION NACH WELCOME ===
+function startFakeVideoOverlay() {
+  // Container erzeugen
+  const fakeVideo = document.createElement('div');
+  fakeVideo.id = 'fakeVideo';
+  fakeVideo.style.cssText = `
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 640px;
+    height: 360px;
+    background: black;
+    border-radius: 12px;
+    overflow: hidden;
+    z-index: 5000;
+  `;
+  document.body.appendChild(fakeVideo);
 
+  // Canvas für Animation
+  const canvas = document.createElement('canvas');
+  canvas.width = 640;
+  canvas.height = 360;
+  fakeVideo.appendChild(canvas);
+  const ctx = canvas.getContext('2d');
+
+  // Partikel vorbereiten
+  const particles = [];
+  for (let i = 0; i < 50; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * 4,
+      vy: (Math.random() - 0.5) * 4,
+      size: Math.random() * 5 + 2,
+      color: `hsl(${Math.random() * 360}, 80%, 60%)`
+    });
+  }
+
+  let t = 0;
+
+  // Animation starten
+  const interval = setInterval(() => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Hintergrund Farbwechsel
+    ctx.fillStyle = `hsl(${t % 360}, 50%, 10%)`;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Partikel bewegen
+    for (let p of particles) {
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+      if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+      ctx.fillStyle = p.color;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    t += 2;
+  }, 33); // ca 30 FPS
+
+  // Nach 10 Sekunden automatisch entfernen
+  setTimeout(() => {
+    clearInterval(interval);
+    fakeVideo.remove();
+  }, 10000);
+}
+
+// === FAKE VIDEO NACH WELCOME TEXT STARTEN ===
+setTimeout(() => {
+  startFakeVideoOverlay();
+}, 8000); // z.B. 8 Sekunden nach Welcome Text
   // Text anzeigen
   const msg = document.createElement('div');
   msg.textContent = "Welcome";
