@@ -489,7 +489,10 @@ function isReverseConstruct(input, originalWord) {
 
   return input.length >= 2; // mindestens 2 Buchstaben rückwärts erkannt
 }
-  
+  if (isReverseConstruct(playerInput, currentWord)) {
+  showMessage("Wrong");
+  return;
+}
   // Kein gleicher Endbuchstabe wie davor
 const lastTwo = currentWord.slice(-2).toLowerCase();
 if(word.slice(-1).toLowerCase() === lastTwo[0]){
