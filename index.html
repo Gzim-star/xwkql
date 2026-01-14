@@ -471,6 +471,12 @@ if(word.length < 6){
   return;
 }
 
+// 🔒 Keine Wörter nur aus einem Buchstaben
+const uniqueChars = new Set(word.toLowerCase());
+if(uniqueChars.size === 1){
+    showWordError("Wrong");
+    return;
+}
 
   // Kein gleicher Endbuchstabe wie davor
 const lastTwo = currentWord.slice(-2).toLowerCase();
