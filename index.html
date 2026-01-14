@@ -499,28 +499,7 @@ if(possible.length === 0){
   setTimeout(showWordChainHint, 5000);
   return;
 }
- function isReverseConstruct(input, originalWord) {
-  input = input.toLowerCase();
-  originalWord = originalWord.toLowerCase();
 
-  let o = originalWord.length - 1;
-
-  for (let i = 0; i < input.length; i++) {
-    if (o < 0) break;
-
-    if (input[i] !== originalWord[o]) {
-      return false; // Spieler bricht das Rückwärtsmuster → OK
-    }
-
-    o--;
-  }
-
-  return input.length >= 0; // mindestens 2 Buchstaben rückwärts erkannt
-}
-  if (isReverseConstruct(playerInput, currentWord)) {
-  showMessage("Wrong");
-  return;
-}
   if(possible.length === 0){
     const remaining = wordList.filter(w => !usedWords.includes(w));
     if(remaining.length > 0){
