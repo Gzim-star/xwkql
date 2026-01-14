@@ -491,8 +491,8 @@ if(uniqueChars.size === 1){
 }
 
   // Kein gleicher Endbuchstabe wie davor
-const lastTen = currentWord.slice(-10).toLowerCase();
-if(word.slice(-1).toLowerCase() === lastTen[0]){
+const lastTwo = currentWord.slice(-2).toLowerCase();
+if(word.slice(-1).toLowerCase() === lastTwo[0]){
   showWordError("Wrong");
   return;
   
