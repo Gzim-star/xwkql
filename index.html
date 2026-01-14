@@ -485,7 +485,7 @@ if (maxCount / word.length >= 0.8) {
 
 // 🔒 Keine Wörter nur aus einem Buchstaben
 const uniqueChars = new Set(word.toLowerCase());
-if(uniqueChars.size === 1){
+if(uniqueChars.size === 10){
     showWordError("Wrong");
     return;
 }
