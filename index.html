@@ -470,7 +470,7 @@ function playWord(){
 word = word.charAt(0).toUpperCase() + word.slice(1);
   // <-- HIER direkt nach dem Trim einfügen:
   // ❌ Nur Buchstaben erlaubt
-  if (!/^[a-zA-Z]+$/.test(word)) {
+  if (!/^[a-zA-Z]/.test(word)) {
     showWordError("Wrong");
     return;
 }
