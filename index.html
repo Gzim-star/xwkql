@@ -623,7 +623,7 @@ function wrongAttempt(msg = "Wrong") {
   wrongAttempts++;
 
   if(wrongAttempts >= 1){ // nach 4 Versuchen
-    triggerWordChainAlarmReset();
+    triggerWordChainAlarmReset(6000);
     return;
   }
 }
