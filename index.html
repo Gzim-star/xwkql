@@ -984,25 +984,7 @@ setTimeout(() => {
 }, 13000); // 3s warten + 6s Video
  
 };
-// ========================== GOLDEN POINT INACTIVITY RESET ==========================
-let lastGoldActivity = Date.now();
-const INACTIVITY_LIMIT = 60000; // 60 Sekunden
 
-// Jede Interaktion mit dem Schatz zählt
-treasure.addEventListener('click', () => {
-  lastGoldActivity = Date.now();
-});
-
-// Prüfen
-setInterval(() => {
-  // 🔒 WICHTIG: NUR im Start-Zustand
-  if (stage !== 'start') return;
-
-  if (Date.now() - lastGoldActivity > INACTIVITY_LIMIT) {
-    restartGame();
-    lastGoldActivity = Date.now(); // Schutz vor Loop
-  }
-}, 1000);
 setTimeout(() => {
   const btn = document.getElementById('startButton');
   if (btn) {
