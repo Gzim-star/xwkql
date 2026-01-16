@@ -261,23 +261,7 @@ button:hover { background: #00000000; }
 const tipButton = document.getElementById('tipButton');
 const cubeFace = tipButton.querySelector('.cube-face');
 
-// ========================== GOLDEN POINT INACTIVITY RESET ==========================
-let lastGoldClickTime = Date.now(); // Zeitstempel der letzten Interaktion
-const INACTIVITY_LIMIT = 60000; // 60 Sekunden Inaktivität
 
-// Immer wenn der Schatz angeklickt wird, aktualisieren wir den Zeitstempel
-treasure.addEventListener('click', () => {
-  lastGoldClickTime = Date.now();
-});
-
-// Prüfen alle 1 Sekunde
-setInterval(() => {
-  if (Date.now() - lastGoldClickTime > INACTIVITY_LIMIT) {
-    // Wenn länger als 60s nichts passiert → Reset
-    restartGame();
-    lastGoldClickTime = Date.now(); // sofort zurücksetzen, damit es nicht ständig auslöst
-  }
-}, 1000);
 // TIP BUTTON erst nach 9 Sekunden erscheinen lassen
 setTimeout(() => {
   tipButton.classList.add('show'); // Button kommt rein
