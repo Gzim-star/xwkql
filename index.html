@@ -428,23 +428,7 @@ function showWordError(text) {
     message.textContent = "";
   }, 1200);
 }
-// ========================== GOLDEN POINT INACTIVITY RESET ==========================
-let lastGoldClickTime = Date.now(); // Zeitstempel der letzten Interaktion
-const INACTIVITY_LIMIT = 60000; // 60 Sekunden Inaktivität
 
-// Immer wenn der Schatz angeklickt wird, aktualisieren wir den Zeitstempel
-treasure.addEventListener('click', () => {
-  lastGoldClickTime = Date.now();
-});
-
-// Prüfen alle 1 Sekunde
-setInterval(() => {
-  if (Date.now() - lastGoldClickTime > INACTIVITY_LIMIT) {
-    // Wenn länger als 60s nichts passiert → Reset
-    restartGame();
-    lastGoldClickTime = Date.now(); // sofort zurücksetzen, damit es nicht ständig auslöst
-  }
-}, 1000);
 // ========================== WORD CHAIN ==========================
 function startWordChain(){
   stage='word';
@@ -999,6 +983,23 @@ setTimeout(() => {
 }, 13000); // 3s warten + 6s Video
  
 };
+// ========================== GOLDEN POINT INACTIVITY RESET ==========================
+let lastGoldClickTime = Date.now(); // Zeitstempel der letzten Interaktion
+const INACTIVITY_LIMIT = 10000; // 60 Sekunden Inaktivität
+
+// Immer wenn der Schatz angeklickt wird, aktualisieren wir den Zeitstempel
+treasure.addEventListener('click', () => {
+  lastGoldClickTime = Date.now();
+});
+
+// Prüfen alle 1 Sekunde
+setInterval(() => {
+  if (Date.now() - lastGoldClickTime > INACTIVITY_LIMIT) {
+    // Wenn länger als 60s nichts passiert → Reset
+    restartGame();
+    lastGoldClickTime = Date.now(); // sofort zurücksetzen, damit es nicht ständig auslöst
+  }
+}, 1000);
 setTimeout(() => {
   const btn = document.getElementById('startButton');
   if (btn) {
