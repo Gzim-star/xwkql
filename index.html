@@ -417,6 +417,30 @@ let mathTimer=30, mathTimerInterval;
 let lastPlayerClick = 0; // Zeit des letzten Klicks
 const clickCooldown = 300; // 300 ms zwischen erlaubten Klicks
 let wrongAttempts = 0; // ✅ RICHTIG PLATZIERT
+// ========================== GOLDEN POINT INAKTIVITÄT ==========================
+const GOLDEN_INACTIVITY_LIMIT = 20000; // 60 Sekunden
+let goldenInactivityTimer;
+
+function resetGoldenTimer() {
+  clearTimeout(goldenInactivityTimer);
+  goldenInactivityTimer = setTimeout(() => {
+    console.log("Golden Point inactive → Auto-Restart");
+    restartGame(); // nutzt deine bestehende Restart-Funktion
+  }, GOLDEN_INACTIVITY_LIMIT);
+}
+
+// Hol das Goldene Element
+const treasure = document.getElementById('treasure');
+
+if (treasure) {
+  // Timer starten, wenn Flow-Bild sichtbar ist
+  resetGoldenTimer();
+
+  // Jede Interaktion mit dem Goldenen Punkt setzt Timer zurück
+  ['mousemove', 'mousedown', 'keydown', 'touchstart'].forEach(evt => {
+    treasure.addEventListener(evt, resetGoldenTimer);
+  });
+}
 function showWordError(text) {
   const message = document.getElementById('message');
   if (!message) return;
