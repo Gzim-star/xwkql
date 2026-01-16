@@ -261,7 +261,6 @@ button:hover { background: #00000000; }
 const tipButton = document.getElementById('tipButton');
 const cubeFace = tipButton.querySelector('.cube-face');
 
-
 // TIP BUTTON erst nach 9 Sekunden erscheinen lassen
 setTimeout(() => {
   tipButton.classList.add('show'); // Button kommt rein
@@ -429,7 +428,6 @@ function showWordError(text) {
     message.textContent = "";
   }, 1200);
 }
-
 // ========================== WORD CHAIN ==========================
 function startWordChain(){
   stage='word';
@@ -920,8 +918,7 @@ function restartGame(){
   // Flow-Bild anzeigen
   const startScreen = document.getElementById('startScreen');
   startScreen.style.display = 'flex';
-  //  Golden Point Inaktivitäts-Überwachung starten
-  startScreenWatcher(); 
+   
 }
 function showChromaticWin(){
   const text = document.getElementById('chromaticWinText');
@@ -934,41 +931,8 @@ function showChromaticWin(){
   }, 5000); // ⏱ nach 5 Sekunden zurück zum Start
 }
 const treasure = document.getElementById('treasure');
-// ===================== GOLDEN POINT INACTIVITY RESET =====================
-let LastActive = Date.now();
-let startScreenInactivityInterval = null;
 
-// Aktivität merken
-function resetstartScreenInactivity() {
-  LastActive = Date.now();
-}
-
-// Inaktivitäts-Check starten
-function startstartScreenWatcher() {
-  stopstartScreenWatcher(); // Sicherheit
-  LastActive = Date.now();
-
-  startScreenInactivityInterval = setInterval(() => {
-    // Nur prüfen, wenn StartScreen sichtbar ist
-    const startScreen = document.getElementById('startScreen');
-    if (!startScreen || startScreen.style.display === 'none') return;
-
-    if (Date.now() - startScreenLastActive >= 10000) { // 60 Sekunden
-      stopstartScreenWatcher();
-      restartGame(); // 👉 zurück zum Flow-Bild
-    }
-  }, 200);
-}
-
-// Stoppen (z. B. wenn Spiel startet)
-function stopstartScreenWatcher() {
-  if (startScreenInactivityInterval) {
-    clearInterval(starScreenInactivityInterval);
-    startScreenInactivityInterval = null;
-  }
-}
 treasure.onclick = (e) => {
- resetTreasureInactivity(); // 👈 HIER
   // Funken erzeugen
   for(let i=0; i<5; i++){
     const spark = document.createElement('div');
@@ -1018,7 +982,6 @@ setTimeout(() => {
 }, 13000); // 3s warten + 6s Video
  
 };
-
 setTimeout(() => {
   const btn = document.getElementById('startButton');
   if (btn) {
