@@ -417,6 +417,8 @@ let mathTimer=30, mathTimerInterval;
 let lastPlayerClick = 0; // Zeit des letzten Klicks
 const clickCooldown = 300; // 300 ms zwischen erlaubten Klicks
 let wrongAttempts = 0; // ✅ RICHTIG PLATZIERT
+let lastActivityTime = Date.now();
+let inactivityResetDone = false;
 function showWordError(text) {
   const message = document.getElementById('message');
   if (!message) return;
@@ -990,6 +992,30 @@ setTimeout(() => {
   }
 }, 90000);
 
+function registerActivity() {
+  lastActivityTime = Date.now();
+  inactivityResetDone = false; // 🔑 Spieler ist wieder aktiv → Reset wieder erlaubt
+}
+
+// Alles was Aktivität ist
+['mousedown', 'keydown', 'touchstart', 'mousemove'].forEach(evt => {
+  window.addEventListener(evt, registerActivity, { passive: true });
+});
+function startOneTimeInactivityReset() {
+  setInterval(() => {
+    const now = Date.now();
+
+    if (
+      !inactivityResetDone &&
+      now - lastActivityTime >= 10000 // ⏳ 60 Sekunden
+    ) {
+      inactivityResetDone = true;
+      restartGame(); // 🔁 DEIN bestehender Reset
+    }
+  }, 1000); // jede Sekunde prüfen
+}
+
+startOneTimeInactivityReset();
 </script>
 </body>
 </html>
