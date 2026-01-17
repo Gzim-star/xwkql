@@ -409,7 +409,7 @@ window.onclick = (e) => {
   
 // ========================== VARIABLES ==========================
 let stage='start', wordScore=0, ticScore={player:0,ai:0,draw:0};
-let currentWord='', usedWords=[], ;
+let currentWord='',  ;
 let board=[], gameOver=false;
 let correctAnswer=0, correctMathCount=0;
 let timer=10, timerInterval;
@@ -454,7 +454,7 @@ function startWordChain(){
     transition: opacity 0.5s;
   "></div>
 `;
-  currentWord='Apple'; usedWords=[currentWord];
+  currentWord='Apple';
 
 }
   
