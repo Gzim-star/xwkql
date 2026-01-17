@@ -454,7 +454,12 @@ function startWordChain(){
     transition: opacity 0.5s;
   "></div>
 `;
-
+  currentWord='Apple'; usedWords=[currentWord];
+  wordList=["Algorithm","Entropy","Hypothesis","Paradox","Labyrinth",
+  "Quantum","Syntax","Recursion","Neural","Topology",
+  "Cognition","Spectrum","Vector","Matrix","Anomaly",
+  "Threshold","Resonance","Asymmetry","Continuum","Parable"];
+}
   
 function playWord(){
   const input=document.getElementById('playerWord');
@@ -577,80 +582,7 @@ if(possible.length === 0){
     setTimeout(startTicTacToe, 500);
   }
 }
-function aiTurn() {
-  const lastChar = currentWord.slice(-1).toLowerCase();
-  let newWord = '';
-  let attempts = 0;
 
-  const vowels = ['a','e','i','o','u'];
-  const consonants = [
-    'b','c','d','f','g','h','j','k','l','m','n',
-    'p','q','r','s','t','v','w','x','y','z'
-  ];
-  const endings = ['ion','ing','ment','ness','ly','er','est','al','or','ist'];
-
-  while(attempts < 100){
-    attempts++;
-
-    // Länge 6–10
-    const length = Math.floor(Math.random() * 5) + 6;
-
-    // Start mit lastChar
-    let word = lastChar;
-
-    // Abwechselnd Vokal/Konsonant
-    let useVowel = vowels.includes(lastChar) ? false : true;
-
-    for(let i=1; i<length-1; i++){
-      if(useVowel){
-        word += vowels[Math.floor(Math.random()*vowels.length)];
-      } else {
-        word += consonants[Math.floor(Math.random()*consonants.length)];
-      }
-      useVowel = !useVowel;
-    }
-
-    // Zufällige Endung anhängen (50% Chance)
-    if(Math.random() < 0.5){
-      word += endings[Math.floor(Math.random()*endings.length)];
-    }
-
-    // Großschreibung
-    word = word.charAt(0).toUpperCase() + word.slice(1);
-
-    // Regeln prüfen (wie bei playWord)
-    if(usedWords.map(w => w.toLowerCase()).includes(word.toLowerCase())) continue;
-
-    const startChar = word[0].toLowerCase();
-    let run = 0;
-    for(let c of word.toLowerCase()){
-      if(c === startChar) run++;
-      else break;
-    }
-    if(run >= 4) continue;
-
-    const counts = {};
-    for(let c of word.toLowerCase()) counts[c] = (counts[c] || 0) + 1;
-    const maxCount = Math.max(...Object.values(counts));
-    if(maxCount / word.length >= 0.7) continue;
-    if(new Set(word.toLowerCase()).size < 3) continue;
-
-    const lastTwo = currentWord.slice(-2).toLowerCase();
-    if(word.slice(-1).toLowerCase() === lastTwo[0]) continue;
-
-    const reversed = currentWord.split("").reverse().join("").toLowerCase();
-    const blockedBase = reversed.slice(0, -1);
-    if(word.toLowerCase().startsWith(blockedBase) && word.length > blockedBase.length) continue;
-
-    // Alles gut → Wort nehmen
-    newWord = word;
-    break;
-  }
-
-  // Fallback, falls nichts generiert wurde
-  if(!newWord){
-    newWord = lastChar.toUpperCase() + 'Word';
-  }
  function showWordChainHint() {
   const hint = document.getElementById('wordHint');
   if (!hint) return; // Falls das Element noch nicht geladen ist
