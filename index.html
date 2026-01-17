@@ -254,8 +254,9 @@ button:hover { background: #00000000; }
   <source src="att.7KmgCeoPRAfcm8wOdhsPirAp4NqHkg-VfXklv2c3BSk.MP4" type="video/mp4">
 </video>
   <script>
-  document.getElementById('startScreen').onclick = () => {
-  document.getElementById('startScreen').style.display = 'none';
+ const startScreen = document.getElementById('startScreen').onclick = () => {
+ const startScreen = document.getElementById('startScreen').style.display = 'none';
+ const startImage = startScreen.querySelector('img');
 };
     // ========================== TIP BUTTON LOGIC =========================
 const tipButton = document.getElementById('tipButton');
