@@ -1002,8 +1002,7 @@ setTimeout(() => {
   }
 }, 90000);
 
-
-
+<script>
 window.addEventListener('DOMContentLoaded', () => {
   const startScreen = document.getElementById('startScreen');
   const treasure = document.getElementById('treasure');
@@ -1011,7 +1010,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const tipButton = document.getElementById('tipButton');
   const welcomeVideo = document.getElementById('welcomeVideo');
 
-  // 1️⃣ Alles beim Laden blockieren
+  // ========================== 1️⃣ Alles blockieren ==========================
   startButton.style.opacity = '0';
   startButton.style.pointerEvents = 'none';
   tipButton.style.opacity = '0';
@@ -1019,10 +1018,10 @@ window.addEventListener('DOMContentLoaded', () => {
   welcomeVideo.pause();
   welcomeVideo.style.display = 'none';
 
-  // 2️⃣ Deaktiviere StartScreen-Klick, alte Funktion blocken
+  // Alte Klickhandler blockieren
   startScreen.onclick = null;
 
-  // 3️⃣ Klick-Handler definieren
+  // ========================== 2️⃣ Klick-Handler ==========================
   function startOnClick() {
     // StartScreen ausblenden
     startScreen.style.display = 'none';
@@ -1041,24 +1040,55 @@ window.addEventListener('DOMContentLoaded', () => {
       startButton.style.opacity = '1';
       startButton.style.pointerEvents = 'auto';
 
-      // TipButton sichtbar machen
+      // TipButton sichtbar machen / Animation starten
+      tipButton.style.opacity = '1';
+      tipButton.style.pointerEvents = 'auto';
       tipButton.classList.add('show');
       tipButton.classList.add('roll');
+
       setTimeout(() => {
         const cubeFace = tipButton.querySelector('.cube-face');
         cubeFace.textContent = '❕';
         tipButton.classList.remove('roll');
         tipButton.classList.add('pulsing');
-        tipButton.style.pointerEvents = 'auto';
       }, 2000);
+
+      // ✅ Alle originalen Timer nach Klick starten
+      if (typeof initTipButtonTimers === 'function') initTipButtonTimers();
 
     }, 6000); // Dauer Video
   }
 
-  // Klick auf Flow-Bild oder Goldpunkt → erst jetzt starten
+  // ========================== 3️⃣ Klick auf Flow-Bild oder Goldpunkt ==========================
   startScreen.querySelector('img').onclick = startOnClick;
   treasure.onclick = startOnClick;
+
+  // ========================== 4️⃣ Optionale Funktion zum späteren TipButton-Timer ==========================
+  // Damit deine originalen 30s/90s Timers nach Klick wieder normal laufen
+  window.initTipButtonTimers = () => {
+    setTimeout(() => {
+      tipButton.classList.add('show'); 
+      tipButton.classList.add('roll');
+
+      setTimeout(() => {
+        const cubeFace = tipButton.querySelector('.cube-face');
+        cubeFace.textContent = '❕';
+        tipButton.classList.remove('roll'); 
+        tipButton.classList.add('pulsing');
+        tipButton.style.pointerEvents = 'auto';
+      }, 2000);
+
+    }, 30000);
+
+    setTimeout(() => {
+      startButton.style.opacity = '1';
+      startButton.style.pointerEvents = 'auto';
+    }, 90000);
+  };
 });
+</script>
+
+
 </script>
 </body>
 </html>
