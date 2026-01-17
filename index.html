@@ -528,11 +528,7 @@ function startWordChain(){
   if(!newWord){
     newWord = lastChar.toUpperCase() + 'Word';
   } 
-function playWord(){
-  const input=document.getElementById('playerWord');
-  let word=input.value.trim(); word=word.charAt(0).toUpperCase()+word.slice(1);
-  const message=document.getElementById('message');
-  if(!word) return;
+
     // <-- HIER direkt nach dem Trim einfügen:
   // ❌ Nur Buchstaben erlaubt
   if (!/^[a-zA-Z]+$/.test(word)) {
