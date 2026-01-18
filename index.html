@@ -1017,88 +1017,18 @@ window.addEventListener('DOMContentLoaded', () => {
   welcomeVideo.pause();
   welcomeVideo.style.display = 'none';
 
-  // ========================== Klick auf Flow-Bild ==========================
-  flowImage.onclick = () => {
-    // StartScreen ausblenden
-    startScreen.style.display = 'none';
 
-    // Direkt StartButton & TipButton freigeben
-    startButton.style.opacity = '1';
-    startButton.style.pointerEvents = 'auto';
-
-    tipButton.style.opacity = '1';
-    tipButton.style.pointerEvents = 'auto';
-    tipButton.classList.add('show');
-    tipButton.classList.add('roll');
-
-    setTimeout(() => {
-      const cubeFace = tipButton.querySelector('.cube-face');
-      cubeFace.textContent = '❕';
-      tipButton.classList.remove('roll');
-      tipButton.classList.add('pulsing');
-    }, 2000);
 
     // Optional: alte Timer starten, falls du sie brauchst
     if (typeof initTipButtonTimers === 'function') initTipButtonTimers();
   };
 
-  // ========================== Klick auf Goldenen Punkt ==========================
-  treasure.onclick = () => {
-    // StartScreen ausblenden
-    startScreen.style.display = 'none';
-
-    // Welcome Text anzeigen
-    const msg = document.createElement('div');
-    msg.textContent = "Welcome";
-    Object.assign(msg.style, {
-      position: 'fixed',
-      top: '10%',
-      left: '50%',
-      transform: 'translate(-50%, -50%)',
-      background: 'none',
-      color: 'white',
-      padding: '12px 20px',
-      borderRadius: '12px',
-      fontFamily: "'Press Start 2P', cursive",
-      fontSize: '1.4em',
-      zIndex: '5000',
-      opacity: '0',
-      transition: 'opacity 1s',
-    });
-    document.body.appendChild(msg);
-    setTimeout(() => msg.style.opacity = '1', 50);
-    setTimeout(() => msg.style.opacity = '0', 5000);
-    setTimeout(() => msg.remove(), 6000);
-
-    // Video starten
-    welcomeVideo.style.display = 'block';
-    welcomeVideo.currentTime = 0;
-    welcomeVideo.play();
-
-    // Video nach 6 Sekunden ausblenden & StartButtons freigeben
-    setTimeout(() => {
-      welcomeVideo.pause();
-      welcomeVideo.style.display = 'none';
-
-      startButton.style.opacity = '1';
-      startButton.style.pointerEvents = 'auto';
-
-      tipButton.style.opacity = '1';
-      tipButton.style.pointerEvents = 'auto';
-      tipButton.classList.add('show');
-      tipButton.classList.add('roll');
-
-      setTimeout(() => {
-        const cubeFace = tipButton.querySelector('.cube-face');
-        cubeFace.textContent = '❕';
-        tipButton.classList.remove('roll');
-        tipButton.classList.add('pulsing');
-      }, 2000);
+ 
 
       if (typeof initTipButtonTimers === 'function') initTipButtonTimers();
     }, 6000);
-  };
-});
+   }
+    
 </script>
 </body>
 </html>
