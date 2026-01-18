@@ -255,7 +255,6 @@ button:hover { background: #00000000; }
 </video>
   <script>
   document.getElementById('startScreen').onclick = () => {
-  playerIsReady();
   document.getElementById('startScreen').style.display = 'none';
 };
     // ========================== TIP BUTTON LOGIC =========================
@@ -263,8 +262,7 @@ const tipButton = document.getElementById('tipButton');
 const cubeFace = tipButton.querySelector('.cube-face');
 
 // TIP BUTTON erst nach 9 Sekunden erscheinen lassen
-function startIntroTimers() {
-    setTimeout(() => {
+setTimeout(() => {
   tipButton.classList.add('show'); // Button kommt rein
 
   //  Würfel langsam rollen
@@ -945,13 +943,8 @@ function showChromaticWin(){
   }, 5000); // ⏱ nach 5 Sekunden zurück zum Start
 }
 const treasure = document.getElementById('treasure');
-function playerIsReady() {
-  if (gameReady) return; // nur einmal
-  gameReady = true;
-  startIntroTimers();
-}
+
 treasure.onclick = (e) => {
- playerIsReady();
   // Funken erzeugen
   for(let i=0; i<5; i++){
     const spark = document.createElement('div');
