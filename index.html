@@ -201,7 +201,22 @@ button:hover { background: #00000000; }
 </style>
 </head>
 <body>
-  
+  <!-- Unsichtbarer Restart Button -->
+<div id="restartTreasure" title="Restart Game" style="
+    position: absolute;
+    top: 46.3%;
+    left: 46.0%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: gold;
+    cursor: pointer;
+    z-index: 4000;
+    box-shadow: 0 0 10px 3px gold;
+    animation: pulse 2s infinite;
+    display: none; /* Start unsichtbar */
+"></div>
  <div id="startScreen">
   <!-- Schatz versteckt -->
 <div id="treasure" title="Click me!" style="
@@ -924,6 +939,13 @@ function restartGame(){
   const startScreen = document.getElementById('startScreen');
   startScreen.style.display = 'flex';
    
+}
+// Restart-Treasure aktivieren bei Regelverletzung
+function showRestartTreasure() {
+  const restartBtn = document.getElementById('restartTreasure');
+  restartBtn.style.display = 'block'; // sichtbar machen
+  // Puls/Animation wie beim echten Treasure
+  restartBtn.classList.add('pulsing');
 }
 function showChromaticWin(){
   const text = document.getElementById('chromaticWinText');
