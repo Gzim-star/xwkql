@@ -980,7 +980,17 @@ function showGhostRestartTreasure(){
     document.getElementById('startScreen').appendChild(ghost);
   }
 }
-function showChromaticWin(){
+function restartGameHard(){
+  uiStarted = false;
+  wrongAttempts = 0;
+  ghostRestartPending = false;
+
+  document.getElementById('startScreen').style.display = 'none';
+  document.getElementById('gameContainer').style.display = 'flex';
+
+  startUISequence();
+}
+  function showChromaticWin(){
   const text = document.getElementById('chromaticWinText');
   if(!text) return;
 
