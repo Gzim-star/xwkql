@@ -254,14 +254,7 @@ button:hover { background: #00000000; }
   <source src="att.7KmgCeoPRAfcm8wOdhsPirAp4NqHkg-VfXklv2c3BSk.MP4" type="video/mp4">
 </video>
   <script>
-    if (!gameReady) {
-    gameReady = true;
-    startIntroTimers();
-    }
-  
-  let gameReady = false; // 🔒 Spiel gesperrt beim Laden
   document.getElementById('startScreen').onclick = () => {
-  gameReady = true; // 🔓 Spieler ist bereit
   document.getElementById('startScreen').style.display = 'none';
 };
     // ========================== TIP BUTTON LOGIC =========================
@@ -269,11 +262,7 @@ const tipButton = document.getElementById('tipButton');
 const cubeFace = tipButton.querySelector('.cube-face');
 
 // TIP BUTTON erst nach 9 Sekunden erscheinen lassen
- if (!gameReady) {
-    gameReady = true;
-    startIntroTimers();
-    }
-  setTimeout(() => {
+setTimeout(() => {
   tipButton.classList.add('show'); // Button kommt rein
 
   //  Würfel langsam rollen
@@ -428,7 +417,6 @@ let mathTimer=30, mathTimerInterval;
 let lastPlayerClick = 0; // Zeit des letzten Klicks
 const clickCooldown = 300; // 300 ms zwischen erlaubten Klicks
 let wrongAttempts = 0; // ✅ RICHTIG PLATZIERT
-let gameReady = false;
 function showWordError(text) {
   const message = document.getElementById('message');
   if (!message) return;
@@ -957,10 +945,6 @@ function showChromaticWin(){
 const treasure = document.getElementById('treasure');
 
 treasure.onclick = (e) => {
-    if (!gameReady) {
-    gameReady = true;
-    startIntroTimers();
-  }
   // Funken erzeugen
   for(let i=0; i<5; i++){
     const spark = document.createElement('div');
@@ -1010,11 +994,7 @@ setTimeout(() => {
 }, 13000); // 3s warten + 6s Video
  
 };
- if (!gameReady) {
-    gameReady = true;
-    startIntroTimers();
-    }
- setTimeout(() => {
+setTimeout(() => {
   const btn = document.getElementById('startButton');
   if (btn) {
   btn.style.opacity = '1';
