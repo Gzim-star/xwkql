@@ -907,7 +907,7 @@ function restartGame(){
   wrongAttempts = 0; // 🔑 WICHTIG
   
   // Variablen zurücksetzen
-  stage = 'start';
+  stage = 'false';
   wordScore = 0;
   ticScore = {player:0, ai:0, draw:0};
   currentWord = '';
@@ -916,10 +916,14 @@ function restartGame(){
   gameOver = false;
   correctAnswer = 0;
   correctMathCount = 0;
-  solved = false;
- 
 
+  // Spiel ausblenden
+  document.getElementById('gameContainer').style.display = 'none';
 
+  // Flow-Bild anzeigen
+  const startScreen = document.getElementById('startScreen');
+  startScreen.style.display = 'flex';
+   
 }
 function showChromaticWin(){
   const text = document.getElementById('chromaticWinText');
