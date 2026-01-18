@@ -268,14 +268,7 @@ setTimeout(() => {
   //  Würfel langsam rollen
   tipButton.classList.add('roll');
 
-  // ❕ nach dem Rollen
-  setTimeout(() => {
-    cubeFace.textContent = '❕';
-    tipButton.classList.remove('roll'); // Animation beenden
-    // ❕ beginnt sanft zu pulsieren (Modal ist zu)
-    tipButton.classList.add('pulsing');
-  }, 2000); // Dauer des Rollen-Effekts (2 Sekunden)
-}, 30000); // ganze Sequenz startet nach 6 Sekunden
+
 
 
 const tipModal = document.getElementById('tipModal');
@@ -417,6 +410,8 @@ let mathTimer=30, mathTimerInterval;
 let lastPlayerClick = 0; // Zeit des letzten Klicks
 const clickCooldown = 300; // 300 ms zwischen erlaubten Klicks
 let wrongAttempts = 0; // ✅ RICHTIG PLATZIERT
+
+let uiStarted = false;
 function showWordError(text) {
   const message = document.getElementById('message');
   if (!message) return;
@@ -945,7 +940,8 @@ function showChromaticWin(){
 const treasure = document.getElementById('treasure');
 
 treasure.onclick = (e) => {
-  // Funken erzeugen
+startUISequence(); // ⭐ HIER
+// Funken erzeugen
   for(let i=0; i<5; i++){
     const spark = document.createElement('div');
     spark.className = 'spark';
@@ -994,14 +990,32 @@ setTimeout(() => {
 }, 13000); // 3s warten + 6s Video
  
 };
-setTimeout(() => {
-  const btn = document.getElementById('startButton');
-  if (btn) {
-  btn.style.opacity = '1';
-  btn.style.pointerEvents = 'auto';
-  }
-}, 90000);
 
+function startUISequence() {
+  if (uiStarted) return; // 🔒 nur einmal
+  uiStarted = true;
+
+  // TIP BUTTON nach 30s
+  setTimeout(() => {
+    tipButton.classList.add('show');
+    tipButton.classList.add('roll');
+
+    setTimeout(() => {
+      cubeFace.textContent = '❕';
+      tipButton.classList.remove('roll');
+      tipButton.classList.add('pulsing');
+    }, 2000);
+  }, 30000);
+
+  // START BUTTON nach 1:30
+  setTimeout(() => {
+    const btn = document.getElementById('startButton');
+    if (btn) {
+      btn.style.opacity = '1';
+      btn.style.pointerEvents = 'auto';
+    }
+  }, 90000);
+}
 </script>
 </body>
 </html>
