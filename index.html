@@ -953,24 +953,29 @@ if (ghostRestartPending && !ghostVisible) {
   }, 5000); // ⏱ nach 5 Sekunden zurück zum Start
 }
 function globalRestartFromTreasure() {
+  // 🔁 ZUERST: kompletten Game-State resetten
+  restartGame();
+
+  // 👻 Ghost zurücksetzen
   const ghost = document.getElementById('ghostRestartTreasure');
   ghost.style.display = 'none';
   ghostRestartPending = false;
   ghostVisible = false;
 
+  // Flow-Bild aus
   document.getElementById('startScreen').style.display = 'none';
+
+  // Game anzeigen
   document.getElementById('gameContainer').style.display = 'flex';
 
+  // UI neu starten
   uiStarted = false;
   startUISequence();
 }
 treasure.onclick = (e) => {
   e.stopPropagation(); // 🔑 GANZ WICHTIG
   globalRestartFromTreasure();
-  // Startscreen ausblenden
-  document.getElementById('startScreen').style.display = 'none';
-  document.getElementById('gameContainer').style.display = 'flex';
-startUISequence(); // ⭐ HIER
+
 // Funken erzeugen
   for(let i=0; i<5; i++){
     const spark = document.createElement('div');
