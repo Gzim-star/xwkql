@@ -30,9 +30,7 @@ body {
   transition: opacity 0.6s ease;
 
 }
-#startScreen img {
-  pointer-events: none;
-}
+
 #tipButton {
   position: fixed;
   bottom: 20px;
@@ -171,9 +169,13 @@ button:hover { background: #00000000; }
   z-index: 3000;
 }
 #startScreen img {
-  max-width: 90%;
-  height: auto;
-  cursor: pointer;
+  pointer-events: none;
+  z-index: 1;
+}
+
+#treasure {
+  z-index: 5000;
+  pointer-events: auto;
 }
 
   @keyframes pulse {
@@ -271,7 +273,8 @@ button:hover { background: #00000000; }
   <source src="att.7KmgCeoPRAfcm8wOdhsPirAp4NqHkg-VfXklv2c3BSk.MP4" type="video/mp4">
 </video>
   <script>
-
+const treasure = document.getElementById('treasure');
+const ghost = document.getElementById('ghostRestartTreasure');
 
     // ========================== TIP BUTTON LOGIC =========================
 const tipButton = document.getElementById('tipButton');
