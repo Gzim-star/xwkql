@@ -595,7 +595,6 @@ if(possible.length === 0){
   }
 }
 
-
 function showWordChainHint() {
   if(stage !== 'word') return;
 
@@ -606,11 +605,15 @@ function showWordChainHint() {
   hint.style.opacity = "1";
 
   // ⏳ nach 3 Sekunden leiser Reset
-  
-    triggerGhostRestart();
-    setTimeout(restartGame, 3000);
-  },
+  triggerGhostRestart();
+  setTimeout(() => {
+    restartGame();
+    // 🔑 UI-Sequenz wieder erlauben
+    uiStarted = false;
+    startUISequence();
+  }, 3000);
 }
+
 
   function wrongAttempt(msg = "Wrong") {
   showWordError(msg);
