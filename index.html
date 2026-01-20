@@ -201,51 +201,7 @@ button:hover { background: #00000000; }
 </style>
 </head>
 <body>
-  <!-- ==================== DIMENSION OVERLAY ==================== -->
-<div id="dimensionOverlay" style="
-    display:none;
-    position:fixed;
-    inset:0;
-    background: rgba(0,0,0,0.95);
-    color:white;
-    z-index: 6000;
-    font-family:'Press Start 2P', cursive;
-    text-align:center;
-    padding:50px;
-    overflow:auto;
-">
-  <button id="closeDimension" style="
-      position:absolute;
-      top:20px;
-      right:20px;
-      background:#808080;
-      color:black;
-      border:none;
-      padding:10px 15px;
-      border-radius:8px;
-      cursor:pointer;
-      font-family:'Press Start 2P', cursive;
-  ">CLOSE</button>
-
-  <h1>Other Dimension</h1>
-  <p>You have entered the Other Dimension.<br><br>
-  Here you can build a mini-game, login, or anything you like!</p>
-</div>
-
-<!-- Unsichtbarer Klickbereich über ©2026 -->
-<div id="dimensionTrigger" title="Enter Other Dimension" style="
-    position:absolute;
-    width:120px;  /* passe Breite an dein ©2026 an */
-    height:30px;  /* passe Höhe an dein ©2026 an */
-    bottom:10px;  /* Abstand von unten, falls ©2026 unten ist */
-    left:50%;
-    transform:translateX(-50%);
-    cursor:pointer;
-    z-index:5500;
-    /* Optional: debug */
-    /* background: rgba(255,0,0,0.2); */
-"></div>
-  <!-- Ghost Restart Treasure (unsichtbar) -->
+ <!-- Ghost Restart Treasure (unsichtbar) -->
 <div id="ghostRestartTreasure" title="Restarting..." style="
     position: absolute;
     top: 46.3%;
@@ -313,24 +269,6 @@ button:hover { background: #00000000; }
   <source src="att.7KmgCeoPRAfcm8wOdhsPirAp4NqHkg-VfXklv2c3BSk.MP4" type="video/mp4">
 </video>
   <script>
-const overlay = document.getElementById('dimensionOverlay');
-const trigger = document.getElementById('dimensionTrigger');
-const closeBtn = document.getElementById('closeDimension');
-
-trigger.addEventListener('click', () => {
-    overlay.style.display = 'block';
-});
-
-closeBtn.addEventListener('click', () => {
-    overlay.style.display = 'none';
-});
-
-// Optional: klick außerhalb Overlay schließt es
-overlay.addEventListener('click', (e)=>{
-  if(e.target === overlay){
-    overlay.style.display = 'none';
-  }
-});
 
 
     // ========================== TIP BUTTON LOGIC =========================
