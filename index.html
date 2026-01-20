@@ -201,7 +201,16 @@ button:hover { background: #00000000; }
 </style>
 </head>
 <body>
- <!-- Ghost Restart Treasure (unsichtbar) -->
+ <!-- ==================== DIMENSION (Separate Ansicht) ==================== -->
+<div id="dimensionScreen" style="...">
+  <button id="closeDimension">CLOSE</button>
+  <h1>Other Dimension</h1>
+  <p>Hier kannst du Login, Passwort, Captcha oder Mini-Spiele einbauen.</p>
+</div>
+
+<!-- Unsichtbarer Klickbereich über ©2026 -->
+<div id="dimensionTrigger"></div>
+  <!-- Ghost Restart Treasure (unsichtbar) -->
 <div id="ghostRestartTreasure" title="Restarting..." style="
     position: absolute;
     top: 46.3%;
@@ -269,6 +278,29 @@ button:hover { background: #00000000; }
   <source src="att.7KmgCeoPRAfcm8wOdhsPirAp4NqHkg-VfXklv2c3BSk.MP4" type="video/mp4">
 </video>
   <script>
+const dimensionScreen = document.getElementById('dimensionScreen');
+const dimensionTrigger = document.getElementById('dimensionTrigger');
+const closeBtn = document.getElementById('closeDimension');
+const gameContainer = document.getElementById('gameContainer');
+const startScreen = document.getElementById('startScreen');
+
+dimensionTrigger.addEventListener('click', () => {
+    if(gameContainer) gameContainer.style.display = 'none';
+    if(startScreen) startScreen.style.display = 'none';
+    dimensionScreen.style.display = 'block';
+});
+
+closeBtn.addEventListener('click', () => {
+    dimensionScreen.style.display = 'none';
+    if(gameContainer) gameContainer.style.display = 'flex';
+    if(startScreen) startScreen.style.display = 'flex';
+});
+
+dimensionScreen.addEventListener('click', (e)=>{
+  if(e.target === dimensionScreen){
+    closeBtn.click();
+  }
+});
 
 
     // ========================== TIP BUTTON LOGIC =========================
