@@ -201,21 +201,7 @@ button:hover { background: #00000000; }
 </style>
 </head>
 <body>
-   <div id="btFlowMessage" style="
-  position:fixed;
-  inset:0;
-  background:black;
-  color:white;
-  font-family: 'Press Start 2P', cursive; }
-  display:none;
-  align-items:center;
-  justify-content:center;
-  font-size:14px;
-  z-index:5000;
-">
-  Try again
-</div>
-  <!-- Ghost Restart Treasure (unsichtbar) -->
+ <!-- Ghost Restart Treasure (unsichtbar) -->
 <div id="ghostRestartTreasure" title="Restarting..." style="
     position: absolute;
     top: 46.3%;
@@ -283,14 +269,6 @@ button:hover { background: #00000000; }
   <source src="att.7KmgCeoPRAfcm8wOdhsPirAp4NqHkg-VfXklv2c3BSk.MP4" type="video/mp4">
 </video>
   <script>
-function BT_showFlowMessage() {
-  const msg = document.getElementById("btFlowMessage");
-  msg.style.display = "flex";
-
-  setTimeout(() => {
-    msg.style.display = "none";
-  }, 3000);
-}
 
 
    // ========================== TIP BUTTON LOGIC =========================
@@ -644,7 +622,6 @@ function showWordChainHint() {
   if(wrongAttempts >= 4){
     triggerGhostRestart();
     setTimeout(restartGame, 800);
-    BT_showFlowMessage();
   }
 }    
 // ========================== TIC TAC TOE ==========================
