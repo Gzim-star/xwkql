@@ -643,6 +643,8 @@ function showWordChainHint() {
   if(wrongAttempts >= 4){
     triggerGhostRestart();
     setTimeout(restartGame, 800);
+  goBackToFlow();   // das hast du schon
+BT_showFlowMessage();
   }
 }    
 // ========================== TIC TAC TOE ==========================
