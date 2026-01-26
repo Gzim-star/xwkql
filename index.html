@@ -198,6 +198,19 @@ button:hover { background: #00000000; }
   animation: none;
   pointer-events: none;
 }
+/* Puzzle-Zellen */
+#statePuzzleWrapper .cell {
+  width: min(24px, 6vw);
+  height: min(24px, 6vw);
+  background: #808080;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+#statePuzzleWrapper .cell.active {
+  background: gold;
+}
 </style>
 </head>
 <body>
