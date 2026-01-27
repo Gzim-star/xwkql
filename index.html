@@ -248,6 +248,10 @@ button:hover { background: #00000000; }
   font-weight: bold;
   cursor: pointer;
 }
+/* Button */
+solutionBtn.onclick = () => {
+  alert("Klicke diese Zellen:\n" + solvePuzzle(state).join(", "));
+}
 </style>
 </head>
 <body>
@@ -1068,12 +1072,7 @@ function solvePuzzle(state) {
     .filter(Boolean);
 }
 
-/* Button */
-solutionBtn.onclick = () => {
-  alert("Klicke diese Zellen:\n" + solvePuzzle(state).join(", "));
-  }
-} 
-    triggerGhostRestart();
+  triggerGhostRestart();
       setTimeout(() => {
        restartGame();
         // 🔑 UI-Sequenz wieder erlauben
