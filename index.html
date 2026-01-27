@@ -198,7 +198,15 @@ button:hover { background: #00000000; }
   animation: none;
   pointer-events: none;
 }
-/* Puzzle-Zellen */
+#statePuzzleWrapper {
+ transition: opacity 3s ease; /* 🔑 GLEICH wie 3000 ms */
+}
+
+#statePuzzleWrapper.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+  /* Puzzle-Zellen */
 #statePuzzleWrapper .cell {
   width: min(24px, 6vw);
   height: min(24px, 6vw);
@@ -1081,7 +1089,7 @@ setTimeout(() => {
         // 🔑 UI-Sequenz wieder erlauben
         uiStarted = false;
         startUISequence();
-      }, 7000); // ⏱ nach 5 Sekunden zurück zum Start
+      }, 5000); // ⏱ nach 5 Sekunden zurück zum Start
     }
   }
 
