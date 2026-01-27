@@ -965,9 +965,53 @@ function startStatePuzzle(){
 
   initStatePuzzle();
 }
+function solvePuzzle(state, size) {
+  const n = size * size;
+  let matrix = [];
+  let vector = state.slice();
+
+  for (let i = 0; i < n; i++) {
+    matrix[i] = Array(n).fill(0);
+    matrix[i][i] = 1;
+    let r = Math.floor(i / size);
+    let c = i % size;
+    if (r > 0) matrix[i][i - size] = 1;
+    if (r < size - 1) matrix[i][i + size] = 1;
+    if (c > 0) matrix[i][i - 1] = 1;
+    if (c < size - 1) matrix[i][i + 1] = 1;
+  }
+
+  for (let i = 0; i < n; i++) {
+    if (!matrix[i][i]) {
+      for (let j = i + 1; j < n; j++) {
+        if (matrix[j][i]) {
+          [matrix[i], matrix[j]] = [matrix[j], matrix[i]];
+          [vector[i], vector[j]] = [vector[j], vector[i]];
+          break;
+        }
+      }
+    }
+    for (let j = 0; j < n; j++) {
+      if (i !== j && matrix[j][i]) {
+        for (let k = 0; k < n; k++) matrix[j][k] ^= matrix[i][k];
+        vector[j] ^= vector[i];
+      }
+    }
+  }
+
+  return vector
+    .map((v, i) => v ? `(${Math.floor(i/size)+1},${i%size+1})` : null)
+    .filter(Boolean);
+}
 function initStatePuzzle(){
   const grid = document.getElementById("grid");
   const solutionBtn =document.getElementById("solutionBtn")
+  solutionBtn.onclick = () => {
+  alert(
+    "Klicke diese Zellen:\n" +
+    solvePuzzle(state, size).join(", ")
+  );
+};
   const size = 12;
   let state = [];
   let solved = false;
@@ -1017,52 +1061,7 @@ function initStatePuzzle(){
         wrapper.style.display = "none";
       },1300);
     
-  /* Lösung berechnen (bleibt gleich) */
-function solvePuzzle(state) {
-  const n = size * size;
-  let matrix = [];
-  let vector = state.slice();
 
-  for (let i = 0; i < n; i++) {
-    matrix[i] = Array(n).fill(0);
-    matrix[i][i] = 1;
-    let r = Math.floor(i / size);
-    let c = i % size;
-    if (r > 0) matrix[i][i - size] = 1;
-    if (r < size - 1) matrix[i][i + size] = 1;
-    if (c > 0) matrix[i][i - 1] = 1;
-    if (c < size - 1) matrix[i][i + 1] = 1;
-  }
-
-  for (let i = 0; i < n; i++) {
-    if (!matrix[i][i]) {
-      for (let j = i + 1; j < n; j++) {
-        if (matrix[j][i]) {
-          [matrix[i], matrix[j]] = [matrix[j], matrix[i]];
-          [vector[i], vector[j]] = [vector[j], vector[i]];
-          break;
-        }
-      }
-    }
-    for (let j = 0; j < n; j++) {
-      if (i !== j && matrix[j][i]) {
-        for (let k = 0; k < n; k++) matrix[j][k] ^= matrix[i][k];
-        vector[j] ^= vector[i];
-      }
-    }
-  }
-
-  return vector
-    .map((v, i) => v ? `(${Math.floor(i/size)+1},${i%size+1})` : null)
-    .filter(Boolean);
-}
-
-/* Button */
-solutionBtn.onclick = () => {
-  alert("Klicke diese Zellen:\n" + solvePuzzle(state).join(", "));
-};
-
-render();
 
      triggerGhostRestart();
       setTimeout(() => {
