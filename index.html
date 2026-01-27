@@ -1053,8 +1053,29 @@ function initStatePuzzle(){
       const row = Math.floor(i / size);
       const col = i % size;
 
-      if (row === 0) cell.textContent = col + 1;
-      else if (col === 0) cell.textContent = row + 1;
+// Ecke oben-links: 1 anzeigen
+if (row === 0 && col === 0) {
+  cell.textContent = "1";
+}
+// Oben: 1 → 12
+if (row === 0 && col !== 0) {
+  cell.textContent = col + 1;
+}
+
+// Links: 1 → 12
+else if (col === 0 && row !== 0) {
+  cell.textContent = row + 1;
+}
+
+// Rechts: 11 → 2
+else if (col === size - 1 && row !== 0) {
+  cell.textContent = size - row;
+}
+
+// Unten: 11 → 1
+else if (row === size - 1 && col !== 0) {
+  cell.textContent = size - col;
+}
       cell.onclick = ()=>{ if(!solved) toggle(i); };
       grid.appendChild(cell);
     });
